@@ -22,7 +22,7 @@ import { ClientsComponent } from './clients/clients.component';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    ClientsComponent,
+   
 
   ],
   providers: [],
