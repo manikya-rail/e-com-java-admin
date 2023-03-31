@@ -8,6 +8,8 @@ import { ComponentsModule } from './components/components.module';
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { ClientsComponent } from './clients/clients.component';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   imports: [
@@ -22,6 +24,8 @@ import { ClientsComponent } from './clients/clients.component';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
+    AuthLayoutComponent,
+    LoginComponent,
    
 
   ],
