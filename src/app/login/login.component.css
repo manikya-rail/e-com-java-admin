@@ -1,8 +1,18 @@
 #loginRow{
-    margin-top: 120px;
+    margin-top: 50px;
 }
 #techLogoImg{
     width: 80px;
+}
+
+.img-tech-logo{
+ 
+    width: 180px;
+   margin:20px;
+}
+.username-alert ,.password-alert{
+   padding: 10px;
+   
 }
 .form-container{
     background-color: #fff;
