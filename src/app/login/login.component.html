@@ -1,4 +1,11 @@
+<div class="logo">
+    <a href="https://www.techversantinfotech.com/" class="simple-text">
 
+        <img src="/assets/img/techversantLogo1.png" class="img-tech-logo" />
+
+        <!-- Techversant -->
+    </a>
+</div>
 
 <div class="form-bg">
     <div class="container">
@@ -6,7 +13,7 @@
             <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6"></div>
             <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
                 <div class="form-container">
-                    <img src="../../assets/img/techLogoo.png" id="techLogoImg">
+                    <!-- <img src="../../assets/img/techLogoo.png" id="techLogoImg"> -->
                     <h3 class="title">Login</h3>
                     <!-- <ul class="social-links">
                         <li><a href=""><i class="fab fa-google"></i></a></li>
@@ -14,19 +21,38 @@
                         <li><a href=""><i class="fab fa-twitter"></i></a></li>
                     </ul> -->
                     <!-- <span class="description">or use you email for registration:</span> -->
-                    <form class="form-horizontal">
-                     
+                    <form class="form-horizontal" [formGroup]='form'>
+
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Username/Email">
+                            <input type="text" class="form-control"
+                            formControlName="userName"
+                            name="userName" placeholder="Username/Email" >
                         </div>
+                    
+                            <div class="alert alert-danger username-alert" role="alert"
+                                *ngIf="userName.touched && userName.invalid">
+                                <div *ngIf="userName.errors?.required">Username is required</div>
+                                <div *ngIf="userName.errors?.minlength">must contain 4 characters</div>
+                            </div>
+                   
+                        <!-- <div *ngIf="userName.errors.minlength">
+                            <div class="alert alert-danger" role="alert" *ngIf="userName.touched&&userName.invalid">
+                                username must be minimum 4 characters
+                            </div>
+                        </div> -->
                         <div class="form-group">
-                            <input type="password" class="form-control" placeholder="Password">
+                            <input type="password" class="form-control"  formControlName="password" name="password"  placeholder="Password">
                         </div>
+                        <div class="alert alert-danger password-alert" role="alert"
+                                *ngIf="password.touched && password.invalid">
+                                <div *ngIf="password.errors?.required">Password is required</div>
+                               
+                            </div>
                         <!-- <div class="form-group">
                             <input type="checkbox" class="checkbox">
                             <span class="check-label">I agree to the <a href="">Terms</a> and <a href="">Privacy Policy.</a></span>
                         </div> -->
-                        <button class="btn signup">Sign in</button>
+                        <button type="submit" class="btn signup">Sign in</button>
                         <!-- <button class="btn signin">Sign in</button> -->
                     </form>
                 </div>
