@@ -1,0 +1,15 @@
+
+#profilepic{
+border-radius:50%;
+width:150px;
+height:150px;
+display: block;
+margin: 0 auto;
+}
+
+#profDetails{
+    text-align: center;
+}
+#profDetailsDesc{
+    text-align: left;
+}

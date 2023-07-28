@@ -2,31 +2,36 @@
 import {
   //  Breadcrumbs,
   //   Divider, 
-    Grid, 
-    // Link, 
-    Stack, 
-    // Typography 
-  } from '@mui/material';
+
+  Grid,
+  // Link, 
+  Stack, Button
+  // Typography 
+} from '@mui/material';
 
 // project import
-import ComponentSkeleton from './ComponentSkeleton';
+// import ComponentSkeleton from './ComponentSkeleton';
 import MainCard from 'components/MainCard';
 import OrdersTable from '../dashboard/OrdersTable';
+import '../../assets/css/clientList.css';
 
 // ==============================|| COMPONENTS - TYPOGRAPHY ||============================== //
 
 const ClientList = () => (
-  <ComponentSkeleton>
 
+  <>
 
-<Grid item xs={12} md={12} lg={12}>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item />
-        </Grid>
-        <MainCard sx={{ mt: 0 }} content={false}>
-          <OrdersTable />
-        </MainCard>
+    <Grid item xs={12} md={12} lg={12}>
+      <Grid container alignItems="center" justifyContent="space-between">
+        <Grid item />
       </Grid>
+      <Button variant="contained" color="success" id="addClient">
+        Add Client
+      </Button>
+      <MainCard sx={{ mt: 0 }} content={false}>
+        <OrdersTable />
+      </MainCard>
+    </Grid>
 
 
     <Grid container spacing={3}>
@@ -266,7 +271,7 @@ const ClientList = () => (
         </Stack>
       </Grid>
     </Grid>
-  </ComponentSkeleton>
+  </>
 );
 
 export default ClientList;

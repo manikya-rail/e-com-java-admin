@@ -2,7 +2,7 @@
   "name": "admin-template",
   "version": "1.1.2",
   "private": true,
-  "homepage": "",
+  "homepage": "/dashboard",
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
     "@ant-design/icons": "^4.7.0",
