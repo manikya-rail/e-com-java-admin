@@ -22,10 +22,7 @@ const MainRoutes = {
   path: '/',
   element: <MainLayout />,
   children: [
-    {
-      path: '/',
-      element: <DashboardDefault />
-    },
+
     {
       path: 'color',
       element: <Color />
@@ -34,7 +31,7 @@ const MainRoutes = {
       path: 'dashboard',
       children: [
         {
-          path: 'default',
+          path: '',
           element: <DashboardDefault />
         }
       ]
