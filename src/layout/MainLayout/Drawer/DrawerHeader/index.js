@@ -8,7 +8,7 @@ import { Stack } from '@mui/material';
 import DrawerHeaderStyled from './DrawerHeaderStyled';
 import Logo from 'assets/images/logo/techlogo.png';
 
-import 'assets/css/navbar.css'
+import 'assets/css/navbar.css';
 
 // ==============================|| DRAWER HEADER ||============================== //
 

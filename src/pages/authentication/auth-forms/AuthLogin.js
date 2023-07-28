@@ -1,39 +1,39 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+//import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
 import {
   Button,
-  Checkbox,
-  Divider,
-  FormControlLabel,
+  //Checkbox,
+  //Divider,
+  //FormControlLabel,
   FormHelperText,
   Grid,
-  Link,
+  //Link,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
   Stack,
-  Typography
+  //Typography
 } from '@mui/material';
 
 // third party
-import * as Yup from 'yup';
+import * as yup from 'yup';
 import { Formik } from 'formik';
 
 // project import
-import FirebaseSocial from './FirebaseSocial';
+//import FirebaseSocial from './FirebaseSocial';
 import AnimateButton from 'components/@extended/AnimateButton';
-
+//import { useNavigate } from "react-router-dom";
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
-  const [checked, setChecked] = React.useState(false);
-
+  //const [checked, setChecked] = React.useState(false);
+  //const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -42,23 +42,30 @@ const AuthLogin = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
+  
   return (
+    
     <>
+   
       <Formik
         initialValues={{
-          email: 'info@codedthemes.com',
-          password: '123456',
+          email: '',
+          password: '',
           submit: null
         }}
-        validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
+        validationSchema={yup.object().shape({
+        email: yup.string().email().required("Email is required").min(2).max(25),
+        password: yup.string().required("Password is required")
+          .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character")
+      
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             setStatus({ success: false });
             setSubmitting(false);
+           //navigate("/dashboard");
           } catch (err) {
             setStatus({ success: false });
             setErrors({ submit: err.message });
@@ -125,7 +132,7 @@ const AuthLogin = () => {
                 </Stack>
               </Grid>
 
-              <Grid item xs={12} sx={{ mt: -1 }}>
+              {/* <Grid item xs={12} sx={{ mt: -1 }}>
                 <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
                   <FormControlLabel
                     control={
@@ -143,7 +150,7 @@ const AuthLogin = () => {
                     Forgot Password?
                   </Link>
                 </Stack>
-              </Grid>
+              </Grid> */}
               {errors.submit && (
                 <Grid item xs={12}>
                   <FormHelperText error>{errors.submit}</FormHelperText>
@@ -156,14 +163,14 @@ const AuthLogin = () => {
                   </Button>
                 </AnimateButton>
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Divider>
                   <Typography variant="caption"> Login with</Typography>
                 </Divider>
               </Grid>
               <Grid item xs={12}>
                 <FirebaseSocial />
-              </Grid>
+              </Grid> */}
             </Grid>
           </form>
         )}
