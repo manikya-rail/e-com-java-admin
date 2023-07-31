@@ -13,5 +13,4 @@ const App = () => (
   </ThemeCustomization>
 );
 
-
 export default App;

@@ -15,10 +15,7 @@ function createData(trackingNo, name, fat, carbs, protein) {
   return { trackingNo, name, fat, carbs, protein };
 }
 
-const rows = [
-  createData('TV1', 'Amazon', "conact@amazon.com", 1),
-  createData('TV2', 'Flipkart',"conact@flipkart.com" , 1)
-];
+const rows = [createData('TV1', 'Amazon', 'conact@amazon.com', 1), createData('TV2', 'Flipkart', 'conact@flipkart.com', 1)];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -192,15 +189,14 @@ export default function OrderTable() {
                   key={row.trackingNo}
                   selected={isItemSelected}
                 >
-                <TableCell align="left">{row.trackingNo}</TableCell>
+                  <TableCell align="left">{row.trackingNo}</TableCell>
 
                   <TableCell component="th" id={labelId} scope="row" align="left">
-                  <Link color="primary" component={RouterLink} to="">
+                    <Link color="primary" component={RouterLink} to="">
                       {row.name}
                     </Link>
-                  
                   </TableCell>
-                 
+
                   {/* <TableCell align="left">{row.name}</TableCell> */}
                   <TableCell align="left">{row.fat}</TableCell>
                   <TableCell align="left">

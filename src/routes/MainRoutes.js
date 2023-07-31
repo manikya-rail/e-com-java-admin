@@ -22,7 +22,6 @@ const MainRoutes = {
   path: '/',
   element: <MainLayout />,
   children: [
-
     {
       path: 'color',
       element: <Color />
