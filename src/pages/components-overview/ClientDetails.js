@@ -2,17 +2,18 @@ import PropTypes from 'prop-types';
 
 // material-ui
 // import { useTheme } from '@mui/material/styles';
-import { Grid, Stack, Typography,IconButton } from '@mui/material';
+import { Grid, Stack, Typography, IconButton, TextField,Tooltip } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
 import ComponentSkeleton from './ComponentSkeleton';
 
 import userImg from '../../assets/images/users/userpng.png';
-import facebook  from '../../assets/images/icons/facebook.svg';
+import facebook from '../../assets/images/icons/facebook.svg';
 import twitter from '../../assets/images/icons/twitter.svg';
 import google from '../../assets/images/icons/google.svg';
 import '../../assets/css/clientDetails.css';
+import { PencilSquare } from '../../../node_modules/react-bootstrap-icons/dist/index';
 
 // ===============================|| SHADOW BOX ||=============================== //
 
@@ -63,27 +64,31 @@ const ClientDetails = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <MainCard>
-            <Grid container xs={12} sm={12} md={3} lg={4} spacing={0}>
-            <Grid item xs={12} sm={12} md={3} lg={12} >
-             <img src={userImg} alt="img" id="profilepic"/>
-              </Grid>
-              <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
-             <Typography variant='h5' id="profDetails">Amazon</Typography>
-              </Grid>
+          <Tooltip title="Edit profile">
+            <PencilSquare id="editProfIcon"/>
+            </Tooltip>
+            <Grid container xs={12} sm={12} md={12} lg={12}>
+              <Grid item xs={12} sm={4} md={4} lg={4}>
+                <Grid item xs={12} sm={12} md={3} lg={12}>
+                  <img src={userImg} alt="img" id="profilepic" />
+                </Grid>
+                <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
+                  <Typography variant='h5' id="profDetails">Amazon</Typography>
+                </Grid>
 
-              <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
-             <Typography variant='h6' id="profDetailsDesc">Amazon.com Inc (Amazon) is an online retailer and web service provider. The company provides products such as apparel, auto and industrial items, beauty and health products, electronics, grocery, games, jewelry, kids and baby products, music, sports goods, toys, and tools.</Typography>
-              </Grid>
+                <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
+                  <Typography variant='h6' id="profDetailsDesc">Amazon.com Inc (Amazon) is an online retailer and web service provider. The company provides products such as apparel, auto and industrial items, beauty and health products, electronics, grocery, games, jewelry, kids and baby products, music, sports goods, toys, and tools.</Typography>
+                </Grid>
 
-              <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
-              <Grid container justifyContent="center">
-             <IconButton ><img src={google} alt="google"></img></IconButton>
-              <IconButton ><img src={facebook} alt="facebook"></img></IconButton>
-              <IconButton ><img src={twitter} alt="twitter"></img></IconButton>
-              </Grid>
-              </Grid>
+                <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
+                  <Grid container justifyContent="center">
+                    <IconButton ><img src={google} alt="google"></img></IconButton>
+                    <IconButton ><img src={facebook} alt="facebook"></img></IconButton>
+                    <IconButton ><img src={twitter} alt="twitter"></img></IconButton>
+                  </Grid>
+                </Grid>
 
-              {/* <Grid item xs={6} sm={4} md={3} lg={2}>
+                {/* <Grid item xs={6} sm={4} md={3} lg={2}>
                 <ShadowBox shadow="0" />
               </Grid>
               <Grid item xs={6} sm={4} md={3} lg={2}>
@@ -158,13 +163,76 @@ const ClientDetails = () => {
               <Grid item xs={6} sm={4} md={3} lg={2}>
                 <ShadowBox shadow="24" />
               </Grid> */}
+              </Grid>
+
+              <Grid item xs={12} sm={8} md={8} lg={8} id='secColProf'>
+                <table id="secTable">
+
+                <tr >
+                    <td>
+                      <TextField
+                        id="outlined-readonly-prof"
+                        label="Registration No"
+                        defaultValue="001"
+                        multiline
+                        fullWidth
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                      />
+                    </td>
+                  </tr>
+                  <tr >
+                    <td>
+                      <TextField
+                        id="outlined-readonly-prof"
+                        label="Address"
+                        defaultValue="GROUND FLOOR, EROS PLAZA EROS CORPORATE CENTRE, NEHRU PLACE,NEW DELHI,South Delhi-110019 Delhi."
+                        multiline
+                        fullWidth
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <TextField
+                        id="outlined-readonly-prof"
+                        label="Email-ID"
+                        defaultValue="mail@amazon.com"
+                        multiline
+                        fullWidth
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <TextField
+                        id="outlined-readonly-prof"
+                        label="contact number"
+                        defaultValue="+91-110245896"
+                        multiline
+                        fullWidth
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                      />
+                    </td>
+                  </tr>
+                </table>
+              </Grid>
             </Grid>
           </MainCard>
         </Grid>
         <Grid item xs={12}>
-        <h3>Templates</h3>
+          <h3>Templates</h3>
           <MainCard >
-        
+
             <Grid container spacing={3}>
 
               <Grid item xs={6} sm={4} md={3} lg={2}>
