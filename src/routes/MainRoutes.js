@@ -13,13 +13,13 @@ const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
 // render - utilities
 const ClientList = Loadable(lazy(() => import('pages/components-overview/ClientList')));
 const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
-const Shadow = Loadable(lazy(() => import('pages/components-overview/Shadow')));
+const ClientDetails = Loadable(lazy(() => import('pages/components-overview/ClientDetails')));
 const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
-  path: '/',
+  path: '',
   element: <MainLayout />,
   children: [
 
@@ -28,10 +28,10 @@ const MainRoutes = {
       element: <Color />
     },
     {
-      path: 'dashboard',
+      path: '/dashboard',
       children: [
         {
-          path: '',
+          path: '/dashboard',
           element: <DashboardDefault />
         }
       ]
@@ -41,11 +41,12 @@ const MainRoutes = {
       element: <SamplePage />
     },
     {
-      path: 'shadow',
-      element: <Shadow />
+      path: 'clientlist/clientdetails',
+      element: <ClientDetails />
     },
+
     {
-      path: 'clientlist',
+      path: '/clientlist',
       element: <ClientList />
     },
     {
