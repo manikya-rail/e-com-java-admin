@@ -22,10 +22,15 @@ import { PlusSquare } from '../../../node_modules/react-bootstrap-icons/dist/ind
 
 
 
+
 // ==============================|| COMPONENTS - TYPOGRAPHY ||============================== //
 
-const ClientList = () => (
 
+
+
+const ClientList = () => {
+ 
+  return(
   <>
 
     <Grid item xs={12} md={12} lg={12}>
@@ -283,6 +288,7 @@ const ClientList = () => (
       </Grid>
     </Grid>
   </>
-);
+  )
+};
 
 export default ClientList;
