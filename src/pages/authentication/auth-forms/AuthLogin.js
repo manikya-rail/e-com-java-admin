@@ -21,7 +21,7 @@ import {
   Alert
   //Typography
 } from '@mui/material';
-
+import { ApiUrl } from 'common/commonUrl.jsx';
 // third party
 import * as yup from 'yup';
 import { useFormik } from 'formik';
@@ -34,13 +34,14 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import jQuery from 'jquery';
 
 const validationSchema = yup.object({
-  //email: yup.string().email().required('Email is required').min(5),
-  email: yup.string().required('Email is required').min(5),
-  password: yup.string().required('Password is required')
-  // .matches(
-  //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-  //   'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
-  // )
+  email: yup.string().email().required('Email is required').min(5),
+  password: yup
+    .string()
+    .required('Password is required')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
+      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
+    )
 });
 
 const AuthLogin = () => {
@@ -64,18 +65,16 @@ const AuthLogin = () => {
     validateOnBlur: false,
 
     onSubmit: (values) => {
-      // const email = values.email;
-      // const password = values.password;
-      const username = values.email;
+      const email = values.email;
       const password = values.password;
-      // fetch(ApiUrl + '/api/user/login-with-username-and-password', {
-      fetch('https://fakestoreapi.com/auth/login', {
+
+      fetch(ApiUrl + 'api/auth/login', {
         method: 'POST',
         body: JSON.stringify({
-          // email: email,
-          // password: password
-          username: username,
+          email: email,
           password: password
+          // username: username,
+          // password: password
         }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8'
@@ -84,19 +83,21 @@ const AuthLogin = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-
           //Authentication.registerSuccessfulLogin(data);
 
-          if (data.errorCode === 0 && data.user !== null) {
-            if (data.user.role.role === 'SuperAdmin') navigate('/dash');
-            console.log(data);
-          }
-          if (data.user.role.role === 'Admin') {
-            if (data.user.school.dbName !== dbName) {
-              console.log(data.user.role.role);
-              Authentication.setSchool(data.user.school);
-              navigate('/schooldashboard');
-            }
+          // if (data.errorCode === 0 && data.user !== null) {
+          //   if (data.user.role.role === 'SuperAdmin') navigate('/dash');
+          //   console.log(data);
+          // }
+          // if (data.user.role.role === 'Admin') {
+          //   if (data.user.school.dbName !== dbName) {
+          //     console.log(data.user.role.role);
+          //     Authentication.setSchool(data.user.school);
+          //     navigate('/schooldashboard');
+          //   }
+          //}
+          if (data) {
+            if (data.userDetails.role == 'SUPER_ADMIN') navigate('/dashboard');
           } else {
             console.log('error');
             jQuery('#wrongUserAlert').show();
