@@ -1,0 +1,16 @@
+#addClient{
+border-width: 0px;
+margin: 0;
+float: right;
+    font-size: xx-large;
+    height: 35px;
+    width: 35px;
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: green;
+    cursor: pointer;
+
+}
+#addClient:hover{
+    background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+    color: green;
+}

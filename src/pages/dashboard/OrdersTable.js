@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
+// import {useNavigate} from 'react-router-dom';
+
 // material-ui
 import { Box, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 
@@ -150,6 +152,14 @@ export default function OrderTable() {
 
   const isSelected = (trackingNo) => selected.indexOf(trackingNo) !== -1;
 
+  // const navigate = useNavigate();
+
+  // const navigateToClientdetails = () => {
+  //   // 👇️ navigate to /contacts
+  //   navigate('clientlist/clientdetails');
+  // };
+
+
   return (
     <Box>
       <TableContainer
@@ -192,7 +202,7 @@ export default function OrderTable() {
                   <TableCell align="left">{row.trackingNo}</TableCell>
 
                   <TableCell component="th" id={labelId} scope="row" align="left">
-                    <Link color="primary" component={RouterLink} to="">
+                  <Link color="primary" component={RouterLink} to="/clientlist/clientdetails">
                       {row.name}
                     </Link>
                   </TableCell>

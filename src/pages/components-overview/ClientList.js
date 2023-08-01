@@ -1,29 +1,52 @@
 // material-ui
 import {
   //  Breadcrumbs,
-  //   Divider,
+  //   Divider, 
+
   Grid,
   // Link,
-  Stack
-  // Typography
+  Stack,Tooltip
+  // Typography 
 } from '@mui/material';
 
+
+
 // project import
-import ComponentSkeleton from './ComponentSkeleton';
+// import ComponentSkeleton from './ComponentSkeleton';
 import MainCard from 'components/MainCard';
 import OrdersTable from '../dashboard/OrdersTable';
+import '../../assets/css/clientList.css';
+
+import { PlusSquare } from '../../../node_modules/react-bootstrap-icons/dist/index';
+// import { IconButton } from '../../../node_modules/@mui/material/index';
+
+
+
 
 // ==============================|| COMPONENTS - TYPOGRAPHY ||============================== //
 
-const ClientList = () => (
-  <ComponentSkeleton>
+
+
+
+const ClientList = () => {
+ 
+  return(
+  <>
+
     <Grid item xs={12} md={12} lg={12}>
-      <Grid container alignItems="center" justifyContent="space-between">
+      {/* <Grid container alignItems="center" justifyContent="space-between">
         <Grid item />
+      </Grid> */}
+      <Grid item xs={12}>
+      <Tooltip title="Add Client">
+      <PlusSquare id="addClient"/>
+      </Tooltip>
       </Grid>
+      <Grid item xs={12}>
       <MainCard sx={{ mt: 0 }} content={false}>
         <OrdersTable />
       </MainCard>
+      </Grid>
     </Grid>
 
     <Grid container spacing={3}>
@@ -263,7 +286,8 @@ const ClientList = () => (
         </Stack>
       </Grid>
     </Grid>
-  </ComponentSkeleton>
-);
+  </>
+  )
+};
 
 export default ClientList;
