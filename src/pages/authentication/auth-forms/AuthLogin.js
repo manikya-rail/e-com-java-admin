@@ -21,7 +21,7 @@ import {
   Alert
   //Typography
 } from '@mui/material';
-import { ApiUrl } from 'common/commonUrl.jsx';
+//import { ApiUrl } from 'common/commonUrl.jsx';
 // third party
 import * as yup from 'yup';
 import { useFormik } from 'formik';
@@ -32,6 +32,7 @@ import { useNavigate } from 'react-router-dom';
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import jQuery from 'jquery';
+import axios from 'axios';
 
 const validationSchema = yup.object({
   email: yup.string().email().required('Email is required').min(5),
@@ -55,6 +56,8 @@ const AuthLogin = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const { ApiUrl } = process.env;
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -68,7 +71,7 @@ const AuthLogin = () => {
       const email = values.email;
       const password = values.password;
 
-      fetch(ApiUrl + 'api/auth/login', {
+      axios(`${ApiUrl} api/auth/login`, {
         method: 'POST',
         body: JSON.stringify({
           email: email,
