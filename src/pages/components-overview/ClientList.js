@@ -1,15 +1,17 @@
 // material-ui
 import * as React from 'react';
+import { useTheme } from '@mui/material/styles';
 import {
   //  Breadcrumbs,
   //   Divider, 
 
   Grid,
   // Link,
-  Stack,Tooltip,DialogTitle,IconButton,Button,DialogContent,Typography,DialogActions,Dialog 
+  Stack, Tooltip, DialogTitle, Button, DialogContent, DialogActions, Dialog, DialogContentText
+  , useMediaQuery, TextField, Box, Fab
   // Typography 
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+
 
 
 
@@ -21,50 +23,19 @@ import MainCard from 'components/MainCard';
 import OrdersTable from '../dashboard/OrdersTable';
 import '../../assets/css/clientList.css';
 
-import { PlusSquare } from '../../../node_modules/react-bootstrap-icons/dist/index';
-// import { IconButton } from '../../../node_modules/@mui/material/index';
+import { PlusSquareFill } from '../../../node_modules/react-bootstrap-icons/dist/index';
+import { Camera } from '../../../node_modules/react-bootstrap-icons/dist/index';
 
 
 
 
 // ==============================|| COMPONENTS - TYPOGRAPHY ||============================== //
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}));
-
-function BootstrapDialogTitle(props) {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          {/* close */}
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-}
-
 
 const ClientList = () => {
- 
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -74,67 +45,95 @@ const ClientList = () => {
     setOpen(false);
   };
 
-  return(
-  <>
+  return (
+    <>
 
-    <Grid item xs={12} md={12} lg={12}>
-      {/* <Grid container alignItems="center" justifyContent="space-between">
+      <Grid item xs={12} md={12} lg={12}>
+        {/* <Grid container alignItems="center" justifyContent="space-between">
         <Grid item />
       </Grid> */}
-      <Grid item xs={12}>
-      <Tooltip title="Add Client">
-      <PlusSquare id="addClient"   onClick={handleClickOpen}/>
-      </Tooltip>
+        <Grid item xs={12}>
+          <Tooltip title="Add Client">
+            <PlusSquareFill id="addClient" onClick={handleClickOpen} />
+          </Tooltip>
+        </Grid>
+        <Grid item xs={12}>
+          <MainCard sx={{ mt: 0 }} content={false}>
+            <OrdersTable />
+          </MainCard>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-      <MainCard sx={{ mt: 0 }} content={false}>
-        <OrdersTable />
-      </MainCard>
-      </Grid>
-    </Grid>
 
 
-    <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open dialog
-      </Button>
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Add client
-        </BootstrapDialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-            ullamcorper nulla non metus auctor fringilla.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
-      </BootstrapDialog>
-    </div>
+      <div>
+        <Dialog
+          fullScreen={fullScreen}
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="responsive-dialog-title"
+        >
+          <DialogTitle id="responsive-dialog-title">
+            <h4>Add Client</h4>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              <div>
+
+                <Box
+                  component="form"
+                  sx={{
+                    '& > :not(style)': { mt: 1 },  textAlign: 'center'
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth />
+
+                  <TextField id="outlined-basic" label="Description" variant="outlined" fullWidth multiline
+                    rows={3} />
+
+                  <TextField id="outlined-basic" label="Username" variant="outlined" fullWidth />
+
+                  <TextField id="outlined-basic" label="Email-ID" variant="outlined" type="email" fullWidth />
+
+                  <TextField id="outlined-basic" label="Mobile Number" variant="outlined" type="email" fullWidth />
+
+                  <TextField id="outlined-basic" label="Address" variant="outlined" fullWidth multiline
+                    rows={2} />
+
+                  <TextField id="outlined-basic" label="Password" variant="outlined" type="password" fullWidth />
+
+                  <Fab variant="extended" component="label" id="uploadfab" color="primary">
+                    <Camera id='uploadProfIcon'/>
+                    Upload profile image
+                    <input
+                      type="file"
+                      hidden
+                    />
+                  </Fab>
+
+                </Box>
+
+              </div>
+
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant='contained' color='error' onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant='contained' color='success' onClick={handleClose}>
+              Add
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
 
 
-    <Grid container spacing={3}>
-      <Grid item xs={12} lg={6}>
-        <Stack spacing={3}>
-          {/* <MainCard title="Basic" codeHighlight>
+      <Grid container spacing={3}>
+        <Grid item xs={12} lg={6}>
+          <Stack spacing={3}>
+            {/* <MainCard title="Basic" codeHighlight>
             <Stack spacing={0.75} sx={{ mt: -1.5 }}>
               <Typography variant="h1">Inter</Typography>
               <Typography variant="h5">Font Family</Typography>
@@ -145,7 +144,7 @@ const ClientList = () => {
               </Breadcrumbs>
             </Stack>
           </MainCard> */}
-          {/* <MainCard title="Heading" codeHighlight>
+            {/* <MainCard title="Heading" codeHighlight>
             <Stack spacing={2}>
               <Typography variant="h1">H1 Heading</Typography>
               <Breadcrumbs aria-label="breadcrumb">
@@ -365,10 +364,10 @@ const ClientList = () => {
               </Breadcrumbs>
             </>
           </MainCard> */}
-        </Stack>
+          </Stack>
+        </Grid>
       </Grid>
-    </Grid>
-  </>
+    </>
   )
 };
 
