@@ -14,7 +14,7 @@ import twitter from '../../assets/images/icons/twitter.svg';
 import google from '../../assets/images/icons/google.svg';
 import '../../assets/css/clientDetails.css';
 import { PencilSquare } from '../../../node_modules/react-bootstrap-icons/dist/index';
-import ProfileEditModal from './ProfileEditModal';
+import EditProfile from './EditProfile';
 // ===============================|| SHADOW BOX ||=============================== //
 
 function ShadowBox({ shadow }) {
@@ -57,21 +57,23 @@ ShadowBox.propTypes = {
 
 const ClientDetails = () => {
   // const theme = useTheme();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [profileData] = useState({
-    name: 'John Doe',
-    location: 'New York',
-    mobile: '123-456-7890',
-    email: 'john.doe@example.com',
-    username: 'johndoe',
-    password: '********',
-  });
+  //const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [profileData] = useState({
+  //   name: 'John Doe',
+  //   location: 'New York',
+  //   mobile: '123-456-7890',
+  //   email: 'john.doe@example.com',
+  //   username: 'johndoe',
+  //   password: '********',
+  // });
+  const [profileEditModalOpen, setProfileEditModalOpen] = useState(false);
   const handleEditClick = () => {
-    setIsModalOpen(true);
+    console.log("entered");
+    setProfileEditModalOpen(true);
   };
 
   const handleModalClose = () => {
-    setIsModalOpen(false);
+    setProfileEditModalOpen(false);
   };
   return (
     <>
@@ -271,7 +273,7 @@ const ClientDetails = () => {
           </Grid>
         </Grid>
       </ComponentSkeleton>
-      <ProfileEditModal isOpen={isModalOpen} onClose={handleModalClose} initialProfileData={profileData}></ProfileEditModal>
+      <EditProfile open={profileEditModalOpen} onClose={handleModalClose}></EditProfile>
     </>
   );
 };

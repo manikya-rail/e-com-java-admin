@@ -1,14 +1,27 @@
 import React, { useState } from 'react';
-import Modal from 'react-modal';
-import { Card, CardHeader, Container, Row, Col, Table, Button, ModalHeader, ModalBody } from 'reactstrap';
+import { Row, Col, Button, ModalHeader, ModalBody } from 'reactstrap';
+import { Typography, Box, Modal, TextField } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+//import { useFormik } from 'formik';
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '1px solid #000',
+  boxShadow: 24,
+  p: 4
+};
+const ProfileEditModal = () => {
+  const [teacherModal] = useState(false);
+  //   const [profileData, setProfileData] = useState(initialProfileData);
 
-const ProfileEditModal = ({ isOpen, onClose, initialProfileData }) => {
-  const [profileData, setProfileData] = useState(initialProfileData);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProfileData((prevData) => ({ ...prevData, [name]: value }));
-  };
+  //   const handleChange = (e) => {
+  //     const { name, value } = e.target;
+  //     setProfileData((prevData) => ({ ...prevData, [name]: value }));
+  //   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,8 +31,8 @@ const ProfileEditModal = ({ isOpen, onClose, initialProfileData }) => {
   };
 
   return (
-    <Modal open={teacherModal} onClose={handleCloseTeacher} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-      <form onSubmit={formik.handleSubmit}>
+    <Modal open={teacherModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+      <form onSubmit={handleSubmit}>
         <Box
           sx={style}
           style={{
