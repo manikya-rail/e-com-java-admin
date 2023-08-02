@@ -3,10 +3,11 @@ import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import {
   //  Breadcrumbs,
-  //   Divider, 
+  //   Divider,
 
   Grid,
   // Link,
+
   Stack, Tooltip, DialogTitle, Button, DialogContent, DialogActions, Dialog, DialogContentText
   , useMediaQuery, TextField, Box, Fab
   // Typography 
@@ -25,9 +26,6 @@ import '../../assets/css/clientList.css';
 
 import { PlusSquareFill } from '../../../node_modules/react-bootstrap-icons/dist/index';
 import { Camera } from '../../../node_modules/react-bootstrap-icons/dist/index';
-
-
-
 
 // ==============================|| COMPONENTS - TYPOGRAPHY ||============================== //
 
@@ -48,6 +46,7 @@ const ClientList = () => {
   return (
     <>
 
+
       <Grid item xs={12} md={12} lg={12}>
         {/* <Grid container alignItems="center" justifyContent="space-between">
         <Grid item />
@@ -55,6 +54,7 @@ const ClientList = () => {
         <Grid item xs={12}>
           <Tooltip title="Add Client">
             <PlusSquareFill id="addClient" onClick={handleClickOpen} />
+
           </Tooltip>
         </Grid>
         <Grid item xs={12}>
@@ -63,7 +63,6 @@ const ClientList = () => {
           </MainCard>
         </Grid>
       </Grid>
-
 
       <div>
         <Dialog
@@ -368,7 +367,9 @@ const ClientList = () => {
         </Grid>
       </Grid>
     </>
+
   )
+
 };
 
 export default ClientList;

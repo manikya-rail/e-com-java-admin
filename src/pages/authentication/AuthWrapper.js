@@ -5,12 +5,12 @@ import { Box, Grid } from '@mui/material';
 
 // project import
 import AuthCard from './AuthCard';
-import Logo from 'components/Logo';
-import AuthFooter from 'components/cards/AuthFooter';
+//import Logo from 'components/Logo';
+//import AuthFooter from 'components/cards/AuthFooter';
 
 // assets
 import AuthBackground from 'assets/images/auth/AuthBackground';
-
+import Footer from './Footer';
 // ==============================|| AUTHENTICATION - WRAPPER ||============================== //
 
 const AuthWrapper = ({ children }) => (
@@ -24,9 +24,9 @@ const AuthWrapper = ({ children }) => (
         minHeight: '100vh'
       }}
     >
-      <Grid item xs={12} sx={{ ml: 3, mt: 3 }}>
+      {/* <Grid item xs={12} sx={{ ml: 3, mt: 3 }}>
         <Logo />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <Grid
           item
@@ -34,15 +34,16 @@ const AuthWrapper = ({ children }) => (
           container
           justifyContent="center"
           alignItems="center"
-          sx={{ minHeight: { xs: 'calc(100vh - 134px)', md: 'calc(100vh - 112px)' } }}
+          sx={{ minHeight: { xs: 'calc(100vh - 24px)', md: 'calc(100vh - 22px)' } }}
         >
           <Grid item>
             <AuthCard>{children}</AuthCard>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12} sx={{ m: 3, mt: 1 }}>
-        <AuthFooter />
+      <Grid item xs={12} sx={{ mt: 1 }}>
+        {/* <AuthFooter /> */}
+        <Footer />
       </Grid>
     </Grid>
   </Box>
