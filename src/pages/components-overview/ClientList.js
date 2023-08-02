@@ -1,15 +1,14 @@
 // material-ui
 import {
   //  Breadcrumbs,
-  //   Divider, 
+  //   Divider,
 
   Grid,
   // Link,
-  Stack,Tooltip
-  // Typography 
+  Stack,
+  Tooltip
+  // Typography
 } from '@mui/material';
-
-
 
 // project import
 // import ComponentSkeleton from './ComponentSkeleton';
@@ -20,40 +19,31 @@ import '../../assets/css/clientList.css';
 import { PlusSquare } from '../../../node_modules/react-bootstrap-icons/dist/index';
 // import { IconButton } from '../../../node_modules/@mui/material/index';
 
-
-
-
 // ==============================|| COMPONENTS - TYPOGRAPHY ||============================== //
 
-
-
-
 const ClientList = () => {
- 
-  return(
-  <>
-
-    <Grid item xs={12} md={12} lg={12}>
-      {/* <Grid container alignItems="center" justifyContent="space-between">
+  return (
+    <>
+      <Grid item xs={12} md={12} lg={12}>
+        {/* <Grid container alignItems="center" justifyContent="space-between">
         <Grid item />
       </Grid> */}
-      <Grid item xs={12}>
-      <Tooltip title="Add Client">
-      <PlusSquare id="addClient"/>
-      </Tooltip>
+        <Grid item xs={12}>
+          <Tooltip title="Add Client">
+            <PlusSquare id="addClient" />
+          </Tooltip>
+        </Grid>
+        <Grid item xs={12}>
+          <MainCard sx={{ mt: 0 }} content={false}>
+            <OrdersTable />
+          </MainCard>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-      <MainCard sx={{ mt: 0 }} content={false}>
-        <OrdersTable />
-      </MainCard>
-      </Grid>
-    </Grid>
 
-
-    <Grid container spacing={3}>
-      <Grid item xs={12} lg={6}>
-        <Stack spacing={3}>
-          {/* <MainCard title="Basic" codeHighlight>
+      <Grid container spacing={3}>
+        <Grid item xs={12} lg={6}>
+          <Stack spacing={3}>
+            {/* <MainCard title="Basic" codeHighlight>
             <Stack spacing={0.75} sx={{ mt: -1.5 }}>
               <Typography variant="h1">Inter</Typography>
               <Typography variant="h5">Font Family</Typography>
@@ -64,7 +54,7 @@ const ClientList = () => {
               </Breadcrumbs>
             </Stack>
           </MainCard> */}
-          {/* <MainCard title="Heading" codeHighlight>
+            {/* <MainCard title="Heading" codeHighlight>
             <Stack spacing={2}>
               <Typography variant="h1">H1 Heading</Typography>
               <Breadcrumbs aria-label="breadcrumb">
@@ -284,11 +274,11 @@ const ClientList = () => {
               </Breadcrumbs>
             </>
           </MainCard> */}
-        </Stack>
+          </Stack>
+        </Grid>
       </Grid>
-    </Grid>
-  </>
-  )
+    </>
+  );
 };
 
 export default ClientList;
