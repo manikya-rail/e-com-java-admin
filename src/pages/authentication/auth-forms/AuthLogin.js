@@ -56,7 +56,7 @@ const AuthLogin = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const { ApiUrl } = process.env;
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const formik = useFormik({
     initialValues: {
@@ -70,35 +70,16 @@ const AuthLogin = () => {
     onSubmit: (values) => {
       const email = values.email;
       const password = values.password;
-
-      axios(`${ApiUrl} api/auth/login`, {
-        method: 'POST',
-        body: JSON.stringify({
+      //const username=null;
+      axios
+        .post(`${apiUrl}api/auth/login`, {
           email: email,
-          password: password
-          // username: username,
-          // password: password
-        }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8'
-          //  "X-Tenant": "scmns-techversant-db"
-        }
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          //Authentication.registerSuccessfulLogin(data);
-
-          // if (data.errorCode === 0 && data.user !== null) {
-          //   if (data.user.role.role === 'SuperAdmin') navigate('/dash');
-          //   console.log(data);
-          // }
-          // if (data.user.role.role === 'Admin') {
-          //   if (data.user.school.dbName !== dbName) {
-          //     console.log(data.user.role.role);
-          //     Authentication.setSchool(data.user.school);
-          //     navigate('/schooldashboard');
-          //   }
-          //}
+          password: password,
+          username: null
+        })
+        .then((response) => {
+          // Handle the response data directly, no need for response.json()
+          const data = response.data;
           if (data) {
             if (data.userDetails.role == 'SUPER_ADMIN') navigate('/dashboard');
           } else {
@@ -106,6 +87,21 @@ const AuthLogin = () => {
             jQuery('#wrongUserAlert').show();
           }
         })
+
+        //Authentication.registerSuccessfulLogin(data);
+
+        // if (data.errorCode === 0 && data.user !== null) {
+        //   if (data.user.role.role === 'SuperAdmin') navigate('/dash');
+        //   console.log(data);
+        // }
+        // if (data.user.role.role === 'Admin') {
+        //   if (data.user.school.dbName !== dbName) {
+        //     console.log(data.user.role.role);
+        //     Authentication.setSchool(data.user.school);
+        //     navigate('/schooldashboard');
+        //   }
+        //}
+
         .catch((err) => {
           jQuery('#wrongUserAlert').show();
           jQuery('#wrongUserAlert').css('display', 'flex');
