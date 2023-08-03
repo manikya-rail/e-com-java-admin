@@ -23,6 +23,7 @@ const EditProfile = ({ open, onClose }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -57,13 +58,53 @@ const EditProfile = ({ open, onClose }) => {
     },
     validationSchema: validationSchema,
     validateOnChange: true,
-    validateOnBlur: true,
-    onSubmit: (values) => {
-      console.log(values);
+    validateOnBlur: true
+    // onSubmit: (values) => {
+    //   console.log(values);
+    //   onClose();
+    // }
+  });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (formik.isValid) {
+      const formData = new FormData();
+
+      formData.append('name', formik.values.name);
+      formData.append('description', formik.values.description);
+      formData.append('username', formik.values.username);
+      formData.append('email', formik.values.email);
+      formData.append('mobileNumber', formik.values.mobileNumber);
+      formData.append('address', formik.values.address);
+      formData.append('password', formik.values.password);
+
+      // Append any file you want to upload
+      // Assuming you have an input field with type="file" and name="profileImage"
+      const fileInput = document.getElementById('file-upload');
+      if (fileInput && fileInput.files.length > 0) {
+        formData.append('file-upload', fileInput.files[0]);
+      }
+      for (const pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+      // fetch('your-server-url', {
+      //   method: 'POST',
+      //   body: formData
+      // })
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     // Handle the response from the server if needed
+      //     console.log(data);
+      //   })
+      //   .catch((error) => {
+      //     // Handle any errors
+      //     console.error(error);
+      //   });
+      //setSelectedFile(null);
+      // Close the modal after form submission
       onClose();
     }
-  });
-
+  };
   const handleDescriptionChange = (event) => {
     const description = event.target.value;
     if (description.length <= 200) {
@@ -77,6 +118,7 @@ const EditProfile = ({ open, onClose }) => {
 
   const handleCancel = () => {
     formik.resetForm();
+    setSelectedFile(null);
     onClose();
   };
 
@@ -85,7 +127,7 @@ const EditProfile = ({ open, onClose }) => {
       <DialogTitle id="responsive-dialog-title">
         <h3>Edit Profile</h3>
       </DialogTitle>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <DialogContent style={{ marginTop: '-35px' }}>
           <DialogContentText>
             <div>
@@ -226,9 +268,21 @@ const EditProfile = ({ open, onClose }) => {
                     type="file"
                     accept="image/*"
                     hidden
-                    // Add any additional handling for file input if needed
+                    onChange={(event) => {
+                      const file = event.target.files[0];
+                      setSelectedFile(file);
+                      // Add any additional handling for the selected file if needed
+                    }}
                   />
                 </label>
+
+                {/* Show the selected image preview */}
+                {selectedFile && (
+                  <div>
+                    <h4>Selected Image:</h4>
+                    <img src={URL.createObjectURL(selectedFile)} alt="Profile" style={{ width: '200px' }} />
+                  </div>
+                )}
               </Box>
             </div>
           </DialogContentText>
@@ -238,7 +292,7 @@ const EditProfile = ({ open, onClose }) => {
             Cancel
           </Button>
           <Button variant="contained" color="success" type="submit">
-            Add
+            Edit
           </Button>
         </DialogActions>
       </form>
