@@ -15,9 +15,10 @@ import {
   useMediaQuery,
   FormHelperText
 } from '@mui/material';
-import { Visibility, VisibilityOff, Camera } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { Camera } from '../../../node_modules/react-bootstrap-icons/dist/index';
 
 const EditProfile = ({ open, onClose }) => {
   const theme = useTheme();
@@ -58,16 +59,10 @@ const EditProfile = ({ open, onClose }) => {
     },
     validationSchema: validationSchema,
     validateOnChange: true,
-    validateOnBlur: true
-    // onSubmit: (values) => {
-    //   console.log(values);
-    //   onClose();
-    // }
-  });
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    if (formik.isValid) {
+    validateOnBlur: true,
+    onSubmit: (values) => {
+      console.log(values);
+      // if (formik.isValid) {
       const formData = new FormData();
 
       formData.append('name', formik.values.name);
@@ -87,24 +82,50 @@ const EditProfile = ({ open, onClose }) => {
       for (const pair of formData.entries()) {
         console.log(pair[0], pair[1]);
       }
-      // fetch('your-server-url', {
-      //   method: 'POST',
-      //   body: formData
-      // })
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     // Handle the response from the server if needed
-      //     console.log(data);
-      //   })
-      //   .catch((error) => {
-      //     // Handle any errors
-      //     console.error(error);
-      //   });
-      //setSelectedFile(null);
-      // Close the modal after form submission
       onClose();
     }
-  };
+  });
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+
+  //   if (formik.isValid) {
+  //     const formData = new FormData();
+
+  //     formData.append('name', formik.values.name);
+  //     formData.append('description', formik.values.description);
+  //     formData.append('username', formik.values.username);
+  //     formData.append('email', formik.values.email);
+  //     formData.append('mobileNumber', formik.values.mobileNumber);
+  //     formData.append('address', formik.values.address);
+  //     formData.append('password', formik.values.password);
+
+  //     // Append any file you want to upload
+  //     // Assuming you have an input field with type="file" and name="profileImage"
+  //     const fileInput = document.getElementById('file-upload');
+  //     if (fileInput && fileInput.files.length > 0) {
+  //       formData.append('file-upload', fileInput.files[0]);
+  //     }
+  //     for (const pair of formData.entries()) {
+  //       console.log(pair[0], pair[1]);
+  //     }
+  // fetch('your-server-url', {
+  //   method: 'POST',
+  //   body: formData
+  // })
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     // Handle the response from the server if needed
+  //     console.log(data);
+  //   })
+  //   .catch((error) => {
+  //     // Handle any errors
+  //     console.error(error);
+  //   });
+  //setSelectedFile(null);
+  // Close the modal after form submission
+  //     onClose();
+  //   }
+  // };
   const handleDescriptionChange = (event) => {
     const description = event.target.value;
     if (description.length <= 200) {
@@ -127,7 +148,7 @@ const EditProfile = ({ open, onClose }) => {
       <DialogTitle id="responsive-dialog-title">
         <h3>Edit Profile</h3>
       </DialogTitle>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <DialogContent style={{ marginTop: '-35px' }}>
           <DialogContentText>
             <div>
