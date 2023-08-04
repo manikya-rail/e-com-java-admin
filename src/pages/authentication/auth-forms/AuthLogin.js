@@ -32,7 +32,8 @@ import { useNavigate } from 'react-router-dom';
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import jQuery from 'jquery';
-import axios from 'axios';
+import { loginApi } from 'apiservices/Api';
+import { saveToSessionStorage } from 'storageservices/storageUtils';
 
 const validationSchema = yup.object({
   email: yup.string().email().required('Email is required').min(5),
@@ -56,8 +57,6 @@ const AuthLogin = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const apiUrl = process.env.REACT_APP_API_URL;
-
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -70,17 +69,18 @@ const AuthLogin = () => {
     onSubmit: (values) => {
       const email = values.email;
       const password = values.password;
-      //const username=null;
-      axios
-        .post(`${apiUrl}api/auth/login`, {
-          email: email,
-          password: password,
-          username: null
-        })
+
+      loginApi({ email, password })
         .then((response) => {
           // Handle the response data directly, no need for response.json()
           const data = response.data;
           if (data) {
+            const userDetails = data.userDetails;
+            saveToSessionStorage('userDetails', userDetails);
+            const superAdminImage = data.image;
+            saveToSessionStorage('s_image', superAdminImage);
+            const jwtToken = data.token;
+            saveToSessionStorage('jwt_token', jwtToken);
             if (data.userDetails.role == 'SUPER_ADMIN') navigate('/dashboard');
           } else {
             console.log('error');

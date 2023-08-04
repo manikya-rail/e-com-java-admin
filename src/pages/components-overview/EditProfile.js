@@ -18,7 +18,7 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Camera } from '../../../node_modules/react-bootstrap-icons/dist/index';
+import { Camera } from 'react-bootstrap-icons';
 
 const EditProfile = ({ open, onClose }) => {
   const theme = useTheme();

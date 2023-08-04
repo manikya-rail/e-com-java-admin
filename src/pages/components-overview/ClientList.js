@@ -32,9 +32,11 @@ import OrdersTable from '../dashboard/OrdersTable';
 import '../../assets/css/clientList.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { PlusSquareFill } from '../../../node_modules/react-bootstrap-icons/dist/index';
-import { Camera } from '../../../node_modules/react-bootstrap-icons/dist/index';
-
+import { Camera, PlusSquareFill } from 'react-bootstrap-icons';
+import 'react-toastify/dist/ReactToastify.css';
+import { addClientApi } from 'apiservices/Api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // ==============================|| COMPONENTS - TYPOGRAPHY ||============================== //
 
 const ClientList = () => {
@@ -65,7 +67,16 @@ const ClientList = () => {
         'Password must contain at least one lowercase letter, one uppercase letter, one number, one special character (@$!%*?&), and be 8 to 20 characters long'
       )
   });
-
+  const handleSuccess = () => {
+    toast.success('Client added successfully!', {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  };
+  const handleError = () => {
+    toast.error('Something Went Wrong!', {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  };
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -81,72 +92,63 @@ const ClientList = () => {
     validateOnBlur: true,
     onSubmit: (values) => {
       console.log(values);
-      // if (formik.isValid) {
+      const user = {
+        name: values.name,
+        description: values.description,
+        username: values.username,
+        email: values.email,
+        mobileNumber: values.mobileNumber,
+        location: values.address,
+        password: values.password
+      };
+
+      const file = selectedFile;
       const formData = new FormData();
+      // Append user data
+      formData.append('user', JSON.stringify(user)); // Convert user object to JSON string
 
-      formData.append('name', formik.values.name);
-      formData.append('description', formik.values.description);
-      formData.append('username', formik.values.username);
-      formData.append('email', formik.values.email);
-      formData.append('mobileNumber', formik.values.mobileNumber);
-      formData.append('address', formik.values.address);
-      formData.append('password', formik.values.password);
+      // Append file data
+      formData.append('file', file, file.name);
 
-      // Append any file you want to upload
-      // Assuming you have an input field with type="file" and name="profileImage"
-      const fileInput = document.getElementById('file-upload');
-      if (fileInput && fileInput.files.length > 0) {
-        formData.append('file-upload', fileInput.files[0]);
-      }
+      // formData.append('name', formik.values.name);
+      // formData.append('description', formik.values.description);
+      // formData.append('username', formik.values.username);
+      // formData.append('email', formik.values.email);
+      // formData.append('mobileNumber', formik.values.mobileNumber);
+      // formData.append('location', formik.values.address);
+      // formData.append('password', formik.values.password);
+
+      // // Append any file you want to upload
+      // // Assuming you have an input field with type="file" and name="profileImage"
+      // const fileInput = document.getElementById('file-upload');
+      // if (fileInput && fileInput.files.length > 0) {
+      //   formData.append('file-upload', fileInput.files[0]);
+      // }
       for (const pair of formData.entries()) {
         console.log(pair[0], pair[1]);
       }
       //   onClose();
+      addClientApi(formData)
+        .then((response) => {
+          // Handle the response data directly, no need for response.json()
+          const data = response.data;
+          if (data) {
+            console.log('successfully added');
+            handleSuccess();
+          } else {
+            console.log('error');
+            handleError();
+          }
+        })
+        .catch((error) => {
+          // Handle any errors
+          console.error(error);
+          handleError();
+        });
       handleCancel();
     }
   });
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
 
-  //   if (formik.isValid) {
-  //     const formData = new FormData();
-
-  //     formData.append('name', formik.values.name);
-  //     formData.append('description', formik.values.description);
-  //     formData.append('username', formik.values.username);
-  //     formData.append('email', formik.values.email);
-  //     formData.append('mobileNumber', formik.values.mobileNumber);
-  //     formData.append('address', formik.values.address);
-  //     formData.append('password', formik.values.password);
-
-  //     // Append any file you want to upload
-  //     // Assuming you have an input field with type="file" and name="profileImage"
-  //     const fileInput = document.getElementById('file-upload');
-  //     if (fileInput && fileInput.files.length > 0) {
-  //       formData.append('file-upload', fileInput.files[0]);
-  //     }
-  //     for (const pair of formData.entries()) {
-  //       console.log(pair[0], pair[1]);
-  //     }
-  // fetch('your-server-url', {
-  //   method: 'POST',
-  //   body: formData
-  // })
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     // Handle the response from the server if needed
-  //     console.log(data);
-  //   })
-  //   .catch((error) => {
-  //     // Handle any errors
-  //     console.error(error);
-  //   });
-  //setSelectedFile(null);
-  // Close the modal after form submission
-  //     handleClose();
-  //     //onClose();
-  //   }
-  // };
   const handleDescriptionChange = (event) => {
     const description = event.target.value;
     if (description.length <= 200) {
@@ -173,17 +175,18 @@ const ClientList = () => {
 
   return (
     <>
+      <ToastContainer />
+      <Grid item xs={12}>
+        <Tooltip title="Add Client">
+          <PlusSquareFill id="addClient" onClick={handleClickOpen} />
+        </Tooltip>
+      </Grid>
       <Grid item xs={12} md={12} lg={12}>
         {/* <Grid container alignItems="center" justifyContent="space-between">
         <Grid item />
       </Grid> */}
         <Grid item xs={12}>
-          <Tooltip title="Add Client">
-            <PlusSquareFill id="addClient" onClick={handleClickOpen} />
-          </Tooltip>
-        </Grid>
-        <Grid item xs={12}>
-          <MainCard sx={{ mt: 0 }} content={false}>
+          <MainCard sx={{ mt: 10 }} content={false}>
             <OrdersTable />
           </MainCard>
         </Grid>

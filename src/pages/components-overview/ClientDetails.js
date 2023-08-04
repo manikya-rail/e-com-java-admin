@@ -15,6 +15,7 @@ import google from '../../assets/images/icons/google.svg';
 import '../../assets/css/clientDetails.css';
 import { PencilSquare } from '../../../node_modules/react-bootstrap-icons/dist/index';
 import EditProfile from './EditProfile';
+//import { getFromSessionStorage } from 'storageservices/storageUtils';
 // ===============================|| SHADOW BOX ||=============================== //
 
 function ShadowBox({ shadow }) {
@@ -66,9 +67,9 @@ const ClientDetails = () => {
   //   username: 'johndoe',
   //   password: '********',
   // });
+ // const ByteArray = getFromSessionStorage('s_image');
   const [profileEditModalOpen, setProfileEditModalOpen] = useState(false);
   const handleEditClick = () => {
-    console.log("entered");
     setProfileEditModalOpen(true);
   };
 
@@ -92,6 +93,7 @@ const ClientDetails = () => {
                 <Grid item xs={12} sm={4} md={4} lg={4}>
                   <Grid item xs={12} sm={12} md={3} lg={12}>
                     <img src={userImg} alt="img" id="profilepic" />
+                    {/* <img src={`data:image/png;base64,${ByteArray}`} alt="img" id="profilepic" /> */}
                   </Grid>
                   <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
                     <Typography variant="h5" id="profDetails">
