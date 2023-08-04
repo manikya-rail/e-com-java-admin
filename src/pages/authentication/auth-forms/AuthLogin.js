@@ -32,7 +32,8 @@ import { useNavigate } from 'react-router-dom';
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import jQuery from 'jquery';
-import axios from 'axios';
+import { loginApi } from 'apiservices/Api';
+import { saveToSessionStorage } from 'storageservices/storageUtils';
 
 const validationSchema = yup.object({
   email: yup.string().email().required('Email is required').min(5),
@@ -40,8 +41,8 @@ const validationSchema = yup.object({
     .string()
     .required('Password is required')
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/,
+      'Password must contain at least one lowercase letter, one uppercase letter, one number, one special character (@$!%*?&), and be 8 to 20 characters long'
     )
 });
 
@@ -56,8 +57,6 @@ const AuthLogin = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const { ApiUrl } = process.env;
-
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -71,41 +70,38 @@ const AuthLogin = () => {
       const email = values.email;
       const password = values.password;
 
-      axios(`${ApiUrl} api/auth/login`, {
-        method: 'POST',
-        body: JSON.stringify({
-          email: email,
-          password: password
-          // username: username,
-          // password: password
-        }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8'
-          //  "X-Tenant": "scmns-techversant-db"
-        }
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          //Authentication.registerSuccessfulLogin(data);
-
-          // if (data.errorCode === 0 && data.user !== null) {
-          //   if (data.user.role.role === 'SuperAdmin') navigate('/dash');
-          //   console.log(data);
-          // }
-          // if (data.user.role.role === 'Admin') {
-          //   if (data.user.school.dbName !== dbName) {
-          //     console.log(data.user.role.role);
-          //     Authentication.setSchool(data.user.school);
-          //     navigate('/schooldashboard');
-          //   }
-          //}
+      loginApi({ email, password })
+        .then((response) => {
+          // Handle the response data directly, no need for response.json()
+          const data = response.data;
           if (data) {
+            const userDetails = data.userDetails;
+            saveToSessionStorage('userDetails', userDetails);
+            const superAdminImage = data.image;
+            saveToSessionStorage('s_image', superAdminImage);
+            const jwtToken = data.token;
+            saveToSessionStorage('jwt_token', jwtToken);
             if (data.userDetails.role == 'SUPER_ADMIN') navigate('/dashboard');
           } else {
             console.log('error');
             jQuery('#wrongUserAlert').show();
           }
         })
+
+        //Authentication.registerSuccessfulLogin(data);
+
+        // if (data.errorCode === 0 && data.user !== null) {
+        //   if (data.user.role.role === 'SuperAdmin') navigate('/dash');
+        //   console.log(data);
+        // }
+        // if (data.user.role.role === 'Admin') {
+        //   if (data.user.school.dbName !== dbName) {
+        //     console.log(data.user.role.role);
+        //     Authentication.setSchool(data.user.school);
+        //     navigate('/schooldashboard');
+        //   }
+        //}
+
         .catch((err) => {
           jQuery('#wrongUserAlert').show();
           jQuery('#wrongUserAlert').css('display', 'flex');
