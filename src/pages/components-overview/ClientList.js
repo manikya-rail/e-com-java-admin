@@ -21,8 +21,8 @@ import {
   Fab,
   InputAdornment,
   IconButton,
-  FormHelperText
-  // Typography
+  FormHelperText,
+  Typography
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 // project import
@@ -175,18 +175,22 @@ const ClientList = () => {
 
   return (
     <>
+     <Grid item xs={12} sx={{ mb: 5 }}>
+        <Typography variant="h5">Client List</Typography>
+      </Grid>
       <ToastContainer />
       <Grid item xs={12}>
         <Tooltip title="Add Client">
           <PlusSquareFill id="addClient" onClick={handleClickOpen} />
         </Tooltip>
       </Grid>
+  
       <Grid item xs={12} md={12} lg={12}>
         {/* <Grid container alignItems="center" justifyContent="space-between">
         <Grid item />
       </Grid> */}
         <Grid item xs={12}>
-          <MainCard sx={{ mt: 10 }} content={false}>
+          <MainCard content={false}>
             <OrdersTable />
           </MainCard>
         </Grid>

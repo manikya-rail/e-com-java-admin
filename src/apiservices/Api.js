@@ -4,3 +4,4 @@ import headerConfig from './headerConfig';
 
 export const loginApi = (data) => axios.post(config.loginurl, data);
 export const addClientApi = (data) => axios.post(config.addClientUrl, data, headerConfig);
+export const getSuperAdminProfile=(id)=>axios.get(`${config.getSuperAdminProfile}/${id}`,headerConfig);
