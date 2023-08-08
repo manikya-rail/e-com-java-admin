@@ -52,6 +52,7 @@ const MainLayout = () => {
         <Toolbar />
         <Breadcrumbs navigation={navigation} title />
         <Outlet />
+      
       </Box>
     </Box>
   );

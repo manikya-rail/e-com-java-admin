@@ -1,0 +1,38 @@
+
+#profilepic{
+border-radius:50%;
+width:150px;
+height:150px;
+display: block;
+margin: 0 auto;
+}
+
+#profDetails{
+    text-align: center;
+}
+#profDetailsDesc{
+    text-align: left;
+}
+#secColProf{
+   
+    border-left: 1px solid black;
+    margin-top: 5%;
+}
+#outlined-readonly-prof{
+    margin-left: 2px;
+}
+#secTable{
+    width: 100%;
+    margin-left: 2%;
+}
+
+#secRowprof{
+    margin-top: 100px;
+}
+
+#editProfIcon{
+    float: right;
+    font-size: x-large;
+    color:#728FCE;
+    cursor: pointer;
+}

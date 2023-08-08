@@ -8,7 +8,7 @@ import { Stack } from '@mui/material';
 import DrawerHeaderStyled from './DrawerHeaderStyled';
 import Logo from 'assets/images/logo/techlogo.png';
 
-import 'assets/css/navbar.css'
+import 'assets/css/navbar.css';
 
 // ==============================|| DRAWER HEADER ||============================== //
 
@@ -19,8 +19,7 @@ const DrawerHeader = ({ open }) => {
     // only available in paid version
     <DrawerHeaderStyled theme={theme} open={open}>
       <Stack direction="row" spacing={1} alignItems="center">
-      <img src={Logo} alt='techversant' id='techversantLogo'
-      />
+        <img src={Logo} alt="techversant" id="techversantLogo" />
         {/* <Chip
           label={process.env.REACT_APP_VERSION}
           size="small"

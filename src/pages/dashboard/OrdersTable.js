@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
+// import {useNavigate} from 'react-router-dom';
+
 // material-ui
 import { Box, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 
@@ -15,10 +17,7 @@ function createData(trackingNo, name, fat, carbs, protein) {
   return { trackingNo, name, fat, carbs, protein };
 }
 
-const rows = [
-  createData('TV1', 'Amazon', "conact@amazon.com", 1),
-  createData('TV2', 'Flipkart',"conact@flipkart.com" , 1)
-];
+const rows = [createData('TV1', 'Amazon', 'conact@amazon.com', 1), createData('TV2', 'Flipkart', 'conact@flipkart.com', 1)];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -153,6 +152,14 @@ export default function OrderTable() {
 
   const isSelected = (trackingNo) => selected.indexOf(trackingNo) !== -1;
 
+  // const navigate = useNavigate();
+
+  // const navigateToClientdetails = () => {
+  //   // 👇️ navigate to /contacts
+  //   navigate('clientlist/clientdetails');
+  // };
+
+
   return (
     <Box>
       <TableContainer
@@ -192,15 +199,14 @@ export default function OrderTable() {
                   key={row.trackingNo}
                   selected={isItemSelected}
                 >
-                <TableCell align="left">{row.trackingNo}</TableCell>
+                  <TableCell align="left">{row.trackingNo}</TableCell>
 
                   <TableCell component="th" id={labelId} scope="row" align="left">
-                  <Link color="primary" component={RouterLink} to="">
+                  <Link color="primary" component={RouterLink} to="/clientlist/clientdetails">
                       {row.name}
                     </Link>
-                  
                   </TableCell>
-                 
+
                   {/* <TableCell align="left">{row.name}</TableCell> */}
                   <TableCell align="left">{row.fat}</TableCell>
                   <TableCell align="left">

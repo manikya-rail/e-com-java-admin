@@ -5,9 +5,10 @@ import {
   BarcodeOutlined,
   BgColorsOutlined,
   FontSizeOutlined,
-  LoadingOutlined,DashboardOutlined,UnorderedListOutlined
+  LoadingOutlined,
+  DashboardOutlined,
+  UnorderedListOutlined
 } from '@ant-design/icons';
-
 
 // icons
 const icons = {
@@ -15,7 +16,8 @@ const icons = {
   BgColorsOutlined,
   BarcodeOutlined,
   AntDesignOutlined,
-  LoadingOutlined,DashboardOutlined,
+  LoadingOutlined,
+  DashboardOutlined,
   UnorderedListOutlined,
   AppstoreAddOutlined
 };
@@ -24,16 +26,16 @@ const icons = {
 
 const utilities = {
   id: 'utilities',
-//   title: 'Utilities',
+  //   title: 'Utilities',
   type: 'group',
   children: [
     {
-    id: 'dashboard',
-    title: 'Dashboard',
-    type: 'item',
-    url: '/dashboard/default',
-    icon: icons.DashboardOutlined,
-    breadcrumbs: false
+      id: 'dashboard',
+      title: 'Dashboard',
+      type: 'item',
+      url: '/dashboard',
+      icon: icons.DashboardOutlined,
+      breadcrumbs: false
     },
     {
       id: 'util-typography',
