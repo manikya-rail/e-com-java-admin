@@ -40,7 +40,7 @@ const MainRoutes = {
       element: <SamplePage />
     },
     {
-      path: 'clientlist/clientdetails',
+      path: 'clientlist/clientdetails/:id',
       element: <ClientDetails />
     },
 

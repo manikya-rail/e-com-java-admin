@@ -46,6 +46,7 @@ const ClientList = () => {
   const [open, setOpen] = React.useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+ // const [error, setError] = useState(null);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -72,8 +73,9 @@ const ClientList = () => {
       position: toast.POSITION.TOP_RIGHT
     });
   };
-  const handleError = () => {
-    toast.error('Something Went Wrong!', {
+  const handleError = (errorResponse) => {
+    const errorMessage = errorResponse.data?.errorMessage || 'An error occurred';
+    toast.error(errorMessage, {
       position: toast.POSITION.TOP_RIGHT
     });
   };
@@ -118,16 +120,19 @@ const ClientList = () => {
           const data = response.data;
           if (data) {
             console.log('successfully added');
+            setInterval('window.location.reload()', 3000);
             handleSuccess();
           } else {
             console.log('error');
-            handleError();
+            setError(data.errorMessage);
+            handleError(response); // Display error message using react-toastify
           }
         })
         .catch((error) => {
           // Handle any errors
+          //setError(error);
           console.error(error);
-          handleError();
+          handleError(error.response); // Display error message using react-toastify
         });
       handleCancel();
     }

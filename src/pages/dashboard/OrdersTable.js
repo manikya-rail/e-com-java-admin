@@ -167,7 +167,8 @@ export default function OrderTable() {
     const fetchClientList = async () => {
       try {
         const list = await getAllClientApi(); // Await the Promise
-        setClientList(list);
+        setClientList(list.data);
+        console.log(list);
         console.log(clientList);
       } catch (error) {
         setError(error); // Handle API call errors
@@ -212,7 +213,7 @@ export default function OrderTable() {
                 </TableCell>
               </TableRow>
             ) : (
-              clientList.map((row, index) => {
+              clientList && clientList.map((row, index) => {
                 const isItemSelected = isSelected(row.trackingNo);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -223,21 +224,21 @@ export default function OrderTable() {
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.trackingNo}
+                    key={row.id}
                     selected={isItemSelected}
                   >
-                    <TableCell align="left">{row.trackingNo}</TableCell>
+                    <TableCell align="left">{row.id}</TableCell>
 
                     <TableCell component="th" id={labelId} scope="row" align="left">
-                      <Link color="primary" component={RouterLink} to="/clientlist/clientdetails">
+                      <Link color="primary" component={RouterLink} to={`/clientlist/clientdetails/${row.id}`}>
                         {row.name}
                       </Link>
                     </TableCell>
 
                     {/* <TableCell align="left">{row.name}</TableCell> */}
-                    <TableCell align="left">{row.fat}</TableCell>
+                    <TableCell align="left">{row.email}</TableCell>
                     <TableCell align="left">
-                      <OrderStatus status={row.carbs} />
+                      <OrderStatus status={row.active==true?1:2} />
                     </TableCell>
                     {/* <TableCell align="right">
                     <NumberFormat value={row.protein} displayType="text" thousandSeparator prefix="$" />

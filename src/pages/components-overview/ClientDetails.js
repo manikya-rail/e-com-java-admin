@@ -16,6 +16,7 @@ import '../../assets/css/clientDetails.css';
 import { PencilSquare } from '../../../node_modules/react-bootstrap-icons/dist/index';
 import EditProfile from './EditProfile';
 import { getClientDetailsByIdApi } from 'apiservices/Api';
+import { useParams } from 'react-router-dom';
 //import { saveToSessionStorage} from 'storageservices/storageUtils';
 // ===============================|| SHADOW BOX ||=============================== //
 
@@ -35,14 +36,15 @@ ShadowBox.propTypes = {
 };
 
 const ClientDetails = () => {
+  const { id } = useParams();
   const [clientDetails, setClientDetails] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchClientDetails = async () => {
       try {
-        const clientId = 2; // Replace with another client ID
-        const details = await getClientDetailsByIdApi(clientId); // Await the Promise
+        //const clientId = 2; // Replace with another client ID
+        const details = await getClientDetailsByIdApi(id); // Await the Promise
         setClientDetails(details.data);
       } catch (error) {
         setError(error); // Handle API call errors
