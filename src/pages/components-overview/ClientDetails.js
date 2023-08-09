@@ -7,7 +7,7 @@ import { Grid, Stack, Typography, IconButton, TextField, Tooltip } from '@mui/ma
 // project import
 import MainCard from 'components/MainCard';
 import ComponentSkeleton from './ComponentSkeleton';
-
+//import ByteToImage from './ByteToImage';
 //import userImg from '../../assets/images/users/userpng.png';
 import facebook from '../../assets/images/icons/facebook.svg';
 import twitter from '../../assets/images/icons/twitter.svg';
@@ -16,7 +16,7 @@ import '../../assets/css/clientDetails.css';
 import { PencilSquare } from '../../../node_modules/react-bootstrap-icons/dist/index';
 import EditProfile from './EditProfile';
 import { getClientDetailsByIdApi } from 'apiservices/Api';
-import { saveToSessionStorage, getFromSessionStorage } from 'storageservices/storageUtils';
+//import { saveToSessionStorage} from 'storageservices/storageUtils';
 // ===============================|| SHADOW BOX ||=============================== //
 
 function ShadowBox({ shadow }) {
@@ -35,23 +35,15 @@ ShadowBox.propTypes = {
 };
 
 const ClientDetails = () => {
-  //const ByteArray = getFromSessionStorage('s_image');
   const [clientDetails, setClientDetails] = useState(null);
   const [error, setError] = useState(null);
-  //const [imageSrc, setImageSrc] = useState(null);
+
   useEffect(() => {
     const fetchClientDetails = async () => {
       try {
         const clientId = 2; // Replace with another client ID
         const details = await getClientDetailsByIdApi(clientId); // Await the Promise
         setClientDetails(details.data);
-        if (details.data.image) {
-          const byteArray = details.data.image;
-          saveToSessionStorage('client_image', byteArray);
-          //   const blob = new Blob([byteArray], { type: 'image/png' }); // Adjust the MIME type if necessary
-          //   const src = URL.createObjectURL(blob);
-          //   setImageSrc(src);
-        }
       } catch (error) {
         setError(error); // Handle API call errors
         console.error('Error fetching client details:', error);
@@ -60,12 +52,12 @@ const ClientDetails = () => {
 
     fetchClientDetails();
   }, []);
-  // console.log(clientDetails.data);
-  //const ByteArray = clientDetails.image;
-  const image = getFromSessionStorage('client_image');
-  console.log(image);
+
   const [profileEditModalOpen, setProfileEditModalOpen] = useState(false);
-  const handleEditClick = () => {
+  const [clientDetailsEdit, setClientDetailsEdit] = useState(false);
+
+  const handleEditClick = (clientDetails) => {
+    setClientDetailsEdit(clientDetails);
     setProfileEditModalOpen(true);
   };
 
@@ -82,7 +74,7 @@ const ClientDetails = () => {
               <p>Error fetching client details: {error.message}</p>
             ) : clientDetails ? (
               <MainCard>
-                <button onClick={handleEditClick}>
+                <button onClick={() => handleEditClick(clientDetails)}>
                   <Tooltip title="Edit profile">
                     <PencilSquare id="editProfIcon" />
                   </Tooltip>
@@ -92,8 +84,7 @@ const ClientDetails = () => {
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <Grid item xs={12} sm={12} md={3} lg={12}>
                       {/* <img src={userImg} alt="img" id="profilepic" /> */}
-                      <img src={`data:image/png;base64,${image}`} alt="img" id="profilepic" />
-                      {/* {imageSrc && <img src={imageSrc} alt="Profile" />} */}
+                      <img src={`data:image/png;base64,${clientDetails && clientDetails.image}`} alt="img" />
                     </Grid>
                     <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
                       <Typography variant="h5" id="profDetails">
@@ -199,7 +190,7 @@ const ClientDetails = () => {
           </Grid>
         </Grid>
       </ComponentSkeleton>
-      <EditProfile open={profileEditModalOpen} onClose={handleModalClose}></EditProfile>
+      <EditProfile open={profileEditModalOpen} onClose={handleModalClose} clientDetailsEdit={clientDetailsEdit}></EditProfile>
     </>
   );
 };

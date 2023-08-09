@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -19,40 +19,14 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Camera } from 'react-bootstrap-icons';
-import { getClientDetailsByIdApi } from 'apiservices/Api';
-//import { getFromSessionStorage } from 'storageservices/storageUtils';
+//import '../../assets/css/clientDetails.css';
 
-const EditProfile = ({ open, onClose }) => {
+const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const [showPassword, setShowPassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const [clientDetails, setClientDetails] = useState(null);
-  // const [error, setError] = useState(null);
-  //const [imageSrc, setImageSrc] = useState(null);
-  useEffect(() => {
-    const fetchClientDetails = async () => {
-      try {
-        const clientId = 2; // Replace with another client ID
-        const details = await getClientDetailsByIdApi(clientId); // Await the Promise
-        setClientDetails(details.data);
-        // if (details.data.image) {
-        //   const byteArray = details.data.image;
-        //   saveToSessionStorage('client_image', byteArray);
-        // const blob = new Blob([byteArray], { type: 'image/png' }); // Adjust the MIME type if necessary
-        // const src = URL.createObjectURL(blob);
-        // setImageSrc(src);
-        // }
-      } catch (error) {
-        // setError(error); // Handle API call errors
-        console.error('Error fetching client details:', error);
-      }
-    };
-
-    fetchClientDetails();
-  }, []);
-  //const image=getFromSessionStorage('client_image');
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     description: Yup.string().required('Description is required').max(200, 'Description must be at most 200 characters long'),
@@ -76,19 +50,21 @@ const EditProfile = ({ open, onClose }) => {
 
   const formik = useFormik({
     initialValues: {
-      name: clientDetails && clientDetails.name,
-      description: clientDetails && clientDetails.description,
-      username: clientDetails && clientDetails.username,
-      email: clientDetails && clientDetails.email,
-      mobileNumber: clientDetails && clientDetails.mobileNumber,
-      address: clientDetails && clientDetails.location,
-      password: '',
-      image: clientDetails && clientDetails.image
+      name: clientDetailsEdit && clientDetailsEdit.name,
+      description: clientDetailsEdit && clientDetailsEdit.description,
+      username: clientDetailsEdit && clientDetailsEdit.username,
+      email: clientDetailsEdit && clientDetailsEdit.email,
+      mobileNumber: clientDetailsEdit && clientDetailsEdit.mobileNumber,
+      address: clientDetailsEdit && clientDetailsEdit.location,
+      password: ''
+      //image: clientDetails && clientDetails.image
     },
+
     enableReinitialize: true,
     validationSchema: validationSchema,
     validateOnChange: true,
     validateOnBlur: true,
+
     onSubmit: (values) => {
       console.log(values);
 
@@ -150,6 +126,17 @@ const EditProfile = ({ open, onClose }) => {
                 noValidate
                 autoComplete="off"
               >
+                {/* Display the client's image */}
+                {clientDetailsEdit && clientDetailsEdit.image && (
+                  <div style={{ marginTop: '20px' }}>
+                    <img
+                      src={`data:image/png;base64,${clientDetailsEdit.image}`} // Use the appropriate format (PNG, JPEG, etc.)
+                      alt="Client"
+                      id="profilepic"
+                      style={{ maxWidth: '100%', height: 'auto' }}
+                    />
+                  </div>
+                )}
                 <TextField
                   id="name"
                   name="name"
@@ -181,9 +168,11 @@ const EditProfile = ({ open, onClose }) => {
                   }
                 />
                 <FormHelperText variant="caption" color="textSecondary">
-                  {formik.values.description.length > 200
-                    ? 'Description truncated to 200 characters'
-                    : `Characters left: ${200 - formik.values.description.length}`}
+                  {formik.values.description
+                    ? formik.values.description.length > 200
+                      ? 'Description truncated to 200 characters'
+                      : `Characters left: ${200 - formik.values.description.length}`
+                    : 'Description not available'}
                 </FormHelperText>
 
                 <TextField
@@ -267,6 +256,7 @@ const EditProfile = ({ open, onClose }) => {
                 />
 
                 {/* Add the following to handle file input */}
+
                 <label htmlFor="file-upload" style={{ display: 'flex', alignItems: 'center' }}>
                   <Fab variant="extended" color="primary" component="span">
                     <Camera />
