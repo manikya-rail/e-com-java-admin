@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography, IconButton, TextField, Tooltip,Button } from '@mui/material';
+import { Grid, IconButton, TextField, Tooltip } from '@mui/material';
 import facebook from '../../assets/images/icons/facebook.svg';
 import twitter from '../../assets/images/icons/twitter.svg';
 import google from '../../assets/images/icons/google.svg';
-import { PencilSquare } from 'react-bootstrap-icons';
-import MainCard from 'components/MainCard';
-import '../../assets/css/superAdminProfile.css';
 import ComponentSkeleton from './ComponentSkeleton';
+import { Camera } from 'react-bootstrap-icons';
+import MainCard from 'components/MainCard';
+import '../../assets/css/SuperAdminProfileEdit.css';
+// import { Link as RouterLink } from 'react-router-dom';
 import { getFromSessionStorage } from 'storageservices/storageUtils';
 import { getSuperAdminProfile } from 'apiservices/Api';
-import { Link as RouterLink } from 'react-router-dom';
 
-export const SuperAdminProfile = () => {
+export const SuperAdminProfileEdit = () => {
   const userProfile = getFromSessionStorage('userDetails');
   const userImage = getFromSessionStorage('s_image');
   const [profile, setProfile] = useState('');
@@ -31,33 +31,56 @@ export const SuperAdminProfile = () => {
         console.error(error);
       });
   }, []);
+
+  // if (!profile || !profile.image) {
+  //     return null;
+  //   }
+
+  //   const byteArray = new Uint8Array(profile.image);
+  //   const base64String = btoa(
+  //     new Uint8Array(profile.image).reduce((data, byte) => data + String.fromCharCode(byte), '')
+  //   );
+  //   const imageSrc = `data:image/png;base64,${base64String}`;
+
   return (
     <ComponentSkeleton>
       <h3>My Profile</h3>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <MainCard>
-            <Button as={RouterLink} to="/profile-edit">
+            {/* <Button as={RouterLink} to="/profile-edit">
               <Tooltip title="Edit profile">
                 <PencilSquare id="editProfIcon" />
               </Tooltip>
-            </Button>
+            </Button> */}
 
             <Grid container xs={12} sm={12} md={12} lg={12}>
               <Grid item xs={12} sm={4} md={4} lg={4}>
                 <Grid item xs={12} sm={12} md={3} lg={12}>
                   <img src={`data:image/png;base64,${userImage}`} alt="img" id="profilepic" />
+                  <IconButton id="cameraIconButton"> <Tooltip title="Edit profile image"><Camera/></Tooltip></IconButton>
                 </Grid>
                 <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
-                  <Typography variant="h5" id="profDetails">
-                    {profile && profile.name}
-                  </Typography>
+                  <TextField
+                    id="outlined-readonly-prof"
+                    label="Name"
+                    defaultValue={profile && profile.name}
+                    color="secondary"
+                    fullWidth
+                    focused
+                  />
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
-                  <Typography variant="h6" id="profDetailsDesc">
-                    {profile && profile.description}
-                  </Typography>
+                  <TextField
+                    id="outlined-readonly-prof"
+                    label="Name"
+                    defaultValue={profile && profile.description}
+                    color="secondary"
+                    multiline
+                    fullWidth
+                    focused
+                  />
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
@@ -87,9 +110,6 @@ export const SuperAdminProfile = () => {
                         multiline
                         fullWidth
                         focused
-                        InputProps={{
-                          readOnly: true
-                        }}
                       />
                     </td>
                   </tr>
@@ -104,9 +124,6 @@ export const SuperAdminProfile = () => {
                         multiline
                         fullWidth
                         focused
-                        InputProps={{
-                          readOnly: true
-                        }}
                       />
                     </td>
                   </tr>
@@ -121,9 +138,6 @@ export const SuperAdminProfile = () => {
                         multiline
                         fullWidth
                         focused
-                        InputProps={{
-                          readOnly: true
-                        }}
                       />
                     </td>
                   </tr>
@@ -138,9 +152,6 @@ export const SuperAdminProfile = () => {
                         multiline
                         fullWidth
                         focused
-                        InputProps={{
-                          readOnly: true
-                        }}
                       />
                     </td>
                   </tr>
