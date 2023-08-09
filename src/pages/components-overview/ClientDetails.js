@@ -34,40 +34,7 @@ ShadowBox.propTypes = {
   shadow: PropTypes.string.isRequired
 };
 
-// ===============================|| CUSTOM - SHADOW BOX ||=============================== //
-
-// function CustomShadowBox({ shadow, label, color, bgcolor }) {
-//   return (
-//     <MainCard border={false} sx={{ bgcolor: bgcolor || 'inherit', boxShadow: shadow }}>
-//       <Stack spacing={1} justifyContent="center" alignItems="center">
-//         <Typography variant="subtitle1" color={color}>
-//           {label}
-//         </Typography>
-//       </Stack>
-//     </MainCard>
-//   );
-// }
-
-// CustomShadowBox.propTypes = {
-//   shadow: PropTypes.string.isRequired,
-//   color: PropTypes.string.isRequired,
-//   label: PropTypes.string.isRequired,
-//   bgcolor: PropTypes.string
-// };
-
-// ============================|| COMPONENT - SHADOW ||============================ //
-
 const ClientDetails = () => {
-  // const theme = useTheme();
-  //const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [profileData] = useState({
-  //   name: 'John Doe',
-  //   location: 'New York',
-  //   mobile: '123-456-7890',
-  //   email: 'john.doe@example.com',
-  //   username: 'johndoe',
-  //   password: '********',
-  // });
   //const ByteArray = getFromSessionStorage('s_image');
   const [clientDetails, setClientDetails] = useState(null);
   const [error, setError] = useState(null);

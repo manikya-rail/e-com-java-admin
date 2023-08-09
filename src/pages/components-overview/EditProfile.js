@@ -13,7 +13,7 @@ import {
   Box,
   useTheme,
   useMediaQuery,
-  //FormHelperText
+  FormHelperText
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
@@ -40,9 +40,9 @@ const EditProfile = ({ open, onClose }) => {
         // if (details.data.image) {
         //   const byteArray = details.data.image;
         //   saveToSessionStorage('client_image', byteArray);
-          // const blob = new Blob([byteArray], { type: 'image/png' }); // Adjust the MIME type if necessary
-          // const src = URL.createObjectURL(blob);
-          // setImageSrc(src);
+        // const blob = new Blob([byteArray], { type: 'image/png' }); // Adjust the MIME type if necessary
+        // const src = URL.createObjectURL(blob);
+        // setImageSrc(src);
         // }
       } catch (error) {
         // setError(error); // Handle API call errors
@@ -52,7 +52,7 @@ const EditProfile = ({ open, onClose }) => {
 
     fetchClientDetails();
   }, []);
-//const image=getFromSessionStorage('client_image');
+  //const image=getFromSessionStorage('client_image');
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     description: Yup.string().required('Description is required').max(200, 'Description must be at most 200 characters long'),
@@ -91,7 +91,7 @@ const EditProfile = ({ open, onClose }) => {
     validateOnBlur: true,
     onSubmit: (values) => {
       console.log(values);
-      // if (formik.isValid) {
+
       const formData = new FormData();
 
       formData.append('name', formik.values.name);
@@ -114,47 +114,7 @@ const EditProfile = ({ open, onClose }) => {
       onClose();
     }
   });
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
 
-  //   if (formik.isValid) {
-  //     const formData = new FormData();
-
-  //     formData.append('name', formik.values.name);
-  //     formData.append('description', formik.values.description);
-  //     formData.append('username', formik.values.username);
-  //     formData.append('email', formik.values.email);
-  //     formData.append('mobileNumber', formik.values.mobileNumber);
-  //     formData.append('address', formik.values.address);
-  //     formData.append('password', formik.values.password);
-
-  //     // Append any file you want to upload
-  //     // Assuming you have an input field with type="file" and name="profileImage"
-  //     const fileInput = document.getElementById('file-upload');
-  //     if (fileInput && fileInput.files.length > 0) {
-  //       formData.append('file-upload', fileInput.files[0]);
-  //     }
-  //     for (const pair of formData.entries()) {
-  //       console.log(pair[0], pair[1]);
-  //     }
-  // fetch('your-server-url', {
-  //   method: 'POST',
-  //   body: formData
-  // })
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     // Handle the response from the server if needed
-  //     console.log(data);
-  //   })
-  //   .catch((error) => {
-  //     // Handle any errors
-  //     console.error(error);
-  //   });
-  //setSelectedFile(null);
-  // Close the modal after form submission
-  //     onClose();
-  //   }
-  // };
   const handleDescriptionChange = (event) => {
     const description = event.target.value;
     if (description.length <= 200) {
@@ -220,11 +180,11 @@ const EditProfile = ({ open, onClose }) => {
                     formik.touched.description && (formik.errors.description ? 'Description must be at most 200 characters long' : '')
                   }
                 />
-                {/* <FormHelperText variant="caption" color="textSecondary">
+                <FormHelperText variant="caption" color="textSecondary">
                   {formik.values.description.length > 200
                     ? 'Description truncated to 200 characters'
                     : `Characters left: ${200 - formik.values.description.length}`}
-                </FormHelperText> */}
+                </FormHelperText>
 
                 <TextField
                   id="username"
