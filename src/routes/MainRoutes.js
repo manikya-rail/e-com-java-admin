@@ -3,6 +3,8 @@ import { lazy } from 'react';
 // project import
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
+import { SuperAdminProfile } from 'pages/components-overview/SuperAdminProfile';
+import { SuperAdminProfileEdit } from 'pages/components-overview/SuperAdminProfileEdit';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -25,6 +27,14 @@ const MainRoutes = {
     {
       path: 'color',
       element: <Color />
+    },
+    {
+      path: 'profile',
+      element: <SuperAdminProfile />
+    },
+    {
+      path: 'profile-edit',
+      element: <SuperAdminProfileEdit/>
     },
     {
       path: '/dashboard',
@@ -52,6 +62,7 @@ const MainRoutes = {
       path: 'icons/ant',
       element: <AntIcons />
     }
+   
   ]
 };
 

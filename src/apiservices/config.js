@@ -5,7 +5,8 @@ const config = {
   addClientUrl: `${apiUrl}api/auth/client/register`,
   getClientdetailsByIdUrl: `${apiUrl}api/auth`,
   getClientListUrl: `${apiUrl}api/auth/client`,
-  getClientImageUrl: `${apiUrl}api/auth/image`
+  getClientImageUrl: `${apiUrl}api/auth/image`,
+  getSuperAdminProfile: `${apiUrl}api/auth`
 };
 
 export default config;

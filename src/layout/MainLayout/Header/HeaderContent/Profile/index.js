@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import { useRef, useState } from 'react';
+import { useRef, useState,useEffect } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
-  // Avatar,
+  Avatar,
   Box,
   ButtonBase,
   CardContent,
@@ -24,6 +24,8 @@ import MainCard from 'components/MainCard';
 import Transitions from 'components/@extended/Transitions';
 import ProfileTab from './ProfileTab';
 import SettingTab from './SettingTab';
+import { getFromSessionStorage } from 'storageservices/storageUtils';
+import {getSuperAdminProfile} from 'apiservices/Api';
 
 // assets
 // import avatar1 from 'assets/images/users/avatar-1.png';
@@ -80,7 +82,32 @@ const Profile = () => {
   };
 
   const iconBackColorOpen = 'grey.300';
+//Profile api 
 
+const userProfile=getFromSessionStorage("userDetails")
+const userImage=getFromSessionStorage("s_image")
+const [profile,setProfile]=useState('');
+// const image=profile&&profile.image
+useEffect(() => {
+    getSuperAdminProfile(userProfile&&userProfile.id)
+    .then((response) => {
+        const data = response.data;
+        if (data) {
+            setProfile(data)
+            console.log('successfully fetched');
+        }else {
+            console.log('error');
+           
+          }
+    })
+    .catch((error) => {
+        // Handle any errors
+        console.error(error);
+        
+      });
+    },[])
+
+//Profile api 
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
       <ButtonBase
@@ -97,8 +124,8 @@ const Profile = () => {
         onClick={handleToggle}
       >
         <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-          {/* <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} /> */}
-          <Typography variant="subtitle1">Super admin</Typography>
+          <Avatar alt="profile user" src={`data:image/png;base64,${userImage}`} sx={{ width: 32, height: 32 }} />
+          <Typography variant="subtitle1">{profile&&profile.role}</Typography>
         </Stack>
       </ButtonBase>
       <Popper
@@ -139,11 +166,11 @@ const Profile = () => {
                       <Grid container justifyContent="space-between" alignItems="center">
                         <Grid item>
                           <Stack direction="row" spacing={1.25} alignItems="center">
-                            {/* <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} /> */}
+                            <Avatar alt="profile user" src={`data:image/png;base64,${userImage}`} sx={{ width: 32, height: 32 }} />
                             <Stack>
-                              <Typography variant="h6">Bivin</Typography>
+                              <Typography variant="h6">{profile&&profile.name}</Typography>
                               <Typography variant="body2" color="textSecondary">
-                               Super Admin
+                              {profile&&profile.role}
                               </Typography>
                             </Stack>
                           </Stack>
