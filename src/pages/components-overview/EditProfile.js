@@ -6,8 +6,8 @@ import {
   DialogContentText,
   DialogActions,
   TextField,
-  InputAdornment,
-  IconButton,
+  //InputAdornment,
+  //IconButton,
   Fab,
   Button,
   Box,
@@ -15,7 +15,7 @@ import {
   useMediaQuery,
   FormHelperText
 } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+//import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Camera } from 'react-bootstrap-icons';
@@ -24,7 +24,7 @@ import { Camera } from 'react-bootstrap-icons';
 const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-  const [showPassword, setShowPassword] = useState(false);
+  //const [showPassword, setShowPassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
   const validationSchema = Yup.object().shape({
@@ -40,12 +40,12 @@ const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
       .required('Mobile Number is required')
       .matches(/^[0-9]{10}$/, 'Mobile Number must be a 10-digit number'),
     address: Yup.string().required('Address is required'),
-    password: Yup.string()
-      .required('Password is required')
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/,
-        'Password must contain at least one lowercase letter, one uppercase letter, one number, one special character (@$!%*?&), and be 8 to 20 characters long'
-      )
+    // password: Yup.string()
+    //   .required('Password is required')
+    //   .matches(
+    //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/,
+    //     'Password must contain at least one lowercase letter, one uppercase letter, one number, one special character (@$!%*?&), and be 8 to 20 characters long'
+    //   )
   });
 
   const formik = useFormik({
@@ -56,7 +56,7 @@ const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
       email: clientDetailsEdit && clientDetailsEdit.email,
       mobileNumber: clientDetailsEdit && clientDetailsEdit.mobileNumber,
       address: clientDetailsEdit && clientDetailsEdit.location,
-      password: ''
+      //password: ''
       //image: clientDetails && clientDetails.image
     },
 
@@ -76,7 +76,7 @@ const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
       formData.append('email', formik.values.email);
       formData.append('mobileNumber', formik.values.mobileNumber);
       formData.append('address', formik.values.address);
-      formData.append('password', formik.values.password);
+      //formData.append('password', formik.values.password);
 
       // Append any file you want to upload
       // Assuming you have an input field with type="file" and name="profileImage"
@@ -230,7 +230,7 @@ const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
                   error={formik.touched.address && Boolean(formik.errors.address)}
                   helperText={formik.touched.address && formik.errors.address}
                 />
-                <TextField
+                {/* <TextField
                   id="password"
                   name="password"
                   label="Password"
@@ -253,7 +253,7 @@ const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
                     ),
                     style: { color: formik.touched.password && formik.errors.password ? 'red' : 'inherit' }
                   }}
-                />
+                /> */}
 
                 {/* Add the following to handle file input */}
 
