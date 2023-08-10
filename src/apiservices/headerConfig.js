@@ -10,6 +10,10 @@ const headerConfig = {
   client_headers: {
     Authorization: jwtToken,
     'Content-Type': 'application/json'
+  },
+  image_headers: {
+    Authorization: jwtToken,
+    'Content-Type': 'image/png'
   }
 };
 

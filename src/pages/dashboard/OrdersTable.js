@@ -53,7 +53,7 @@ const headCells = [
     id: 'trackingNo',
     align: 'left',
     disablePadding: false,
-    label: 'Client Code'
+    label: 'Client Id'
   },
   {
     id: 'name',
@@ -213,7 +213,8 @@ export default function OrderTable() {
                 </TableCell>
               </TableRow>
             ) : (
-              clientList && clientList.map((row, index) => {
+              clientList &&
+              clientList.map((row, index) => {
                 const isItemSelected = isSelected(row.trackingNo);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -238,7 +239,7 @@ export default function OrderTable() {
                     {/* <TableCell align="left">{row.name}</TableCell> */}
                     <TableCell align="left">{row.email}</TableCell>
                     <TableCell align="left">
-                      <OrderStatus status={row.active==true?1:2} />
+                      <OrderStatus status={row.active == true ? 1 : 2} />
                     </TableCell>
                     {/* <TableCell align="right">
                     <NumberFormat value={row.protein} displayType="text" thousandSeparator prefix="$" />

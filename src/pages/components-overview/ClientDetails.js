@@ -15,7 +15,7 @@ import google from '../../assets/images/icons/google.svg';
 import '../../assets/css/clientDetails.css';
 import { PencilSquare } from '../../../node_modules/react-bootstrap-icons/dist/index';
 import EditProfile from './EditProfile';
-import { getClientDetailsByIdApi } from 'apiservices/Api';
+import { getClientDetailsByIdApi, getClientImageApi } from 'apiservices/Api';
 import { useParams } from 'react-router-dom';
 //import { saveToSessionStorage} from 'storageservices/storageUtils';
 // ===============================|| SHADOW BOX ||=============================== //
@@ -39,13 +39,20 @@ const ClientDetails = () => {
   const { id } = useParams();
   const [clientDetails, setClientDetails] = useState(null);
   const [error, setError] = useState(null);
-
+  const [image, setImage] = useState(null);
   useEffect(() => {
     const fetchClientDetails = async () => {
       try {
-        //const clientId = 2; // Replace with another client ID
         const details = await getClientDetailsByIdApi(id); // Await the Promise
         setClientDetails(details.data);
+        const imageDetails = await getClientImageApi(id);
+        // const blob = new Blob([imageDetails.data], { type: 'image/png' }); // Adjust MIME type as needed
+        // const imageUrl = URL.createObjectURL(blob);
+        // setImage(imageUrl);
+        //     setImageSrc(imageUrl);
+        //setImage(imageDetails.data);
+        setImage('data:image/jpeg;base64,' + imageDetails.data);
+       // console.log(imageUrl);
       } catch (error) {
         setError(error); // Handle API call errors
         console.error('Error fetching client details:', error);
@@ -85,8 +92,9 @@ const ClientDetails = () => {
                 <Grid container xs={12} sm={12} md={12} lg={12}>
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <Grid item xs={12} sm={12} md={3} lg={12}>
-                      {/* <img src={userImg} alt="img" id="profilepic" /> */}
-                      <img src={`data:image/png;base64,${clientDetails && clientDetails.image}`} alt="img" />
+                      {/* <img src={image} alt="img" id="profilepic" /> */}
+                      <img src={image} alt="img" />
+                      {/* {image} */}
                     </Grid>
                     <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
                       <Typography variant="h5" id="profDetails">
