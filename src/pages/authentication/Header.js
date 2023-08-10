@@ -1,5 +1,4 @@
 import React from 'react';
-//import techLogoo from '../../images/techLogoo.png';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,7 +6,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/IconButton';
 import Logo from 'assets/images/logo/techlogo.png';
 
-//import 'assets/css/navbar.css';
 function Header() {
   return (
     <Box>
