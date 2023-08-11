@@ -17,7 +17,9 @@ import { PencilSquare } from '../../../node_modules/react-bootstrap-icons/dist/i
 import EditProfile from './EditProfile';
 import { getClientDetailsByIdApi, getClientImageApi } from 'apiservices/Api';
 import { useParams } from 'react-router-dom';
+//import { getFromSessionStorage, saveToSessionStorage } from 'storageservices/storageUtils';
 //import { saveToSessionStorage} from 'storageservices/storageUtils';
+import { ToastContainer } from 'react-toastify';
 // ===============================|| SHADOW BOX ||=============================== //
 
 function ShadowBox({ shadow }) {
@@ -40,19 +42,12 @@ const ClientDetails = () => {
   const [clientDetails, setClientDetails] = useState(null);
   const [error, setError] = useState(null);
   const [image, setImage] = useState(null);
+  const [ImageError, setImageError] = useState(null);
   useEffect(() => {
     const fetchClientDetails = async () => {
       try {
         const details = await getClientDetailsByIdApi(id); // Await the Promise
         setClientDetails(details.data);
-        const imageDetails = await getClientImageApi(id);
-        // const blob = new Blob([imageDetails.data], { type: 'image/png' }); // Adjust MIME type as needed
-        // const imageUrl = URL.createObjectURL(blob);
-        // setImage(imageUrl);
-        //     setImageSrc(imageUrl);
-        //setImage(imageDetails.data);
-        setImage('data:image/jpeg;base64,' + imageDetails.data);
-       // console.log(imageUrl);
       } catch (error) {
         setError(error); // Handle API call errors
         console.error('Error fetching client details:', error);
@@ -61,7 +56,30 @@ const ClientDetails = () => {
 
     fetchClientDetails();
   }, []);
+  useEffect(() => {
+    const fetchClientImage = async () => {
+      try {
+        const imageResponse = await getClientImageApi(id);
+        console.log('Image response:', imageResponse);
+        if (imageResponse.status === 200) {
+          // const imageByteArray = imageResponse.data; // Fetch image byte array from the backend
+          // const dataUri = `data:image/png;base64,${btoa(String.fromCharCode(...imageByteArray))}`;
+          // console.log(dataUri);
+          //setImage(dataUri);
+          setImage(imageResponse.data);
+        } else {
+          // Handle image API error here
+          setImageError('Error fetching client image');
+          console.error('Error fetching client image:', imageResponse);
+        }
+      } catch (error) {
+        setImageError('Error fetching client image');
+        console.error('Error fetching client image:', error);
+      }
+    };
 
+    fetchClientImage();
+  }, []);
   const [profileEditModalOpen, setProfileEditModalOpen] = useState(false);
   const [clientDetailsEdit, setClientDetailsEdit] = useState(false);
 
@@ -92,9 +110,12 @@ const ClientDetails = () => {
                 <Grid container xs={12} sm={12} md={12} lg={12}>
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <Grid item xs={12} sm={12} md={3} lg={12}>
-                      {/* <img src={image} alt="img" id="profilepic" /> */}
-                      <img src={image} alt="img" />
-                      {/* {image} */}
+                      {ImageError ? <img alt="img" id="profilepic" /> : <img src={`data:image/png;base64,${image}`} alt="img" />}
+                      {/* {image ? (
+        <img src={`data:image/png;base64,${imageData}`} alt="Client" />
+      ) : (
+        <p>Loading image...</p>
+      )} */}
                     </Grid>
                     <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
                       <Typography variant="h5" id="profDetails">
@@ -200,6 +221,7 @@ const ClientDetails = () => {
           </Grid>
         </Grid>
       </ComponentSkeleton>
+      <ToastContainer />
       <EditProfile open={profileEditModalOpen} onClose={handleModalClose} clientDetailsEdit={clientDetailsEdit}></EditProfile>
     </>
   );
