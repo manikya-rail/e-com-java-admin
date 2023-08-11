@@ -6,8 +6,8 @@ import {
   DialogContentText,
   DialogActions,
   TextField,
-  InputAdornment,
-  IconButton,
+  //InputAdornment,
+  //IconButton,
   Fab,
   Button,
   Box,
@@ -15,15 +15,16 @@ import {
   useMediaQuery,
   FormHelperText
 } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+//import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Camera } from 'react-bootstrap-icons';
+//import '../../assets/css/clientDetails.css';
 
-const EditProfile = ({ open, onClose }) => {
+const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-  const [showPassword, setShowPassword] = useState(false);
+  //const [showPassword, setShowPassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
   const validationSchema = Yup.object().shape({
@@ -39,30 +40,34 @@ const EditProfile = ({ open, onClose }) => {
       .required('Mobile Number is required')
       .matches(/^[0-9]{10}$/, 'Mobile Number must be a 10-digit number'),
     address: Yup.string().required('Address is required'),
-    password: Yup.string()
-      .required('Password is required')
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/,
-        'Password must contain at least one lowercase letter, one uppercase letter, one number, one special character (@$!%*?&), and be 8 to 20 characters long'
-      )
+    // password: Yup.string()
+    //   .required('Password is required')
+    //   .matches(
+    //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/,
+    //     'Password must contain at least one lowercase letter, one uppercase letter, one number, one special character (@$!%*?&), and be 8 to 20 characters long'
+    //   )
   });
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      description: '',
-      username: '',
-      email: '',
-      mobileNumber: '',
-      address: '',
-      password: ''
+      name: clientDetailsEdit && clientDetailsEdit.name,
+      description: clientDetailsEdit && clientDetailsEdit.description,
+      username: clientDetailsEdit && clientDetailsEdit.username,
+      email: clientDetailsEdit && clientDetailsEdit.email,
+      mobileNumber: clientDetailsEdit && clientDetailsEdit.mobileNumber,
+      address: clientDetailsEdit && clientDetailsEdit.location,
+      //password: ''
+      //image: clientDetails && clientDetails.image
     },
+
+    enableReinitialize: true,
     validationSchema: validationSchema,
     validateOnChange: true,
     validateOnBlur: true,
+
     onSubmit: (values) => {
       console.log(values);
-      // if (formik.isValid) {
+
       const formData = new FormData();
 
       formData.append('name', formik.values.name);
@@ -71,7 +76,7 @@ const EditProfile = ({ open, onClose }) => {
       formData.append('email', formik.values.email);
       formData.append('mobileNumber', formik.values.mobileNumber);
       formData.append('address', formik.values.address);
-      formData.append('password', formik.values.password);
+      //formData.append('password', formik.values.password);
 
       // Append any file you want to upload
       // Assuming you have an input field with type="file" and name="profileImage"
@@ -85,47 +90,7 @@ const EditProfile = ({ open, onClose }) => {
       onClose();
     }
   });
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
 
-  //   if (formik.isValid) {
-  //     const formData = new FormData();
-
-  //     formData.append('name', formik.values.name);
-  //     formData.append('description', formik.values.description);
-  //     formData.append('username', formik.values.username);
-  //     formData.append('email', formik.values.email);
-  //     formData.append('mobileNumber', formik.values.mobileNumber);
-  //     formData.append('address', formik.values.address);
-  //     formData.append('password', formik.values.password);
-
-  //     // Append any file you want to upload
-  //     // Assuming you have an input field with type="file" and name="profileImage"
-  //     const fileInput = document.getElementById('file-upload');
-  //     if (fileInput && fileInput.files.length > 0) {
-  //       formData.append('file-upload', fileInput.files[0]);
-  //     }
-  //     for (const pair of formData.entries()) {
-  //       console.log(pair[0], pair[1]);
-  //     }
-  // fetch('your-server-url', {
-  //   method: 'POST',
-  //   body: formData
-  // })
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     // Handle the response from the server if needed
-  //     console.log(data);
-  //   })
-  //   .catch((error) => {
-  //     // Handle any errors
-  //     console.error(error);
-  //   });
-  //setSelectedFile(null);
-  // Close the modal after form submission
-  //     onClose();
-  //   }
-  // };
   const handleDescriptionChange = (event) => {
     const description = event.target.value;
     if (description.length <= 200) {
@@ -161,6 +126,17 @@ const EditProfile = ({ open, onClose }) => {
                 noValidate
                 autoComplete="off"
               >
+                {/* Display the client's image */}
+                {clientDetailsEdit && clientDetailsEdit.image && (
+                  <div style={{ marginTop: '20px' }}>
+                    <img
+                      src={`data:image/png;base64,${clientDetailsEdit.image}`} // Use the appropriate format (PNG, JPEG, etc.)
+                      alt="Client"
+                      id="profilepic"
+                      style={{ maxWidth: '100%', height: 'auto' }}
+                    />
+                  </div>
+                )}
                 <TextField
                   id="name"
                   name="name"
@@ -192,9 +168,11 @@ const EditProfile = ({ open, onClose }) => {
                   }
                 />
                 <FormHelperText variant="caption" color="textSecondary">
-                  {formik.values.description.length > 200
-                    ? 'Description truncated to 200 characters'
-                    : `Characters left: ${200 - formik.values.description.length}`}
+                  {formik.values.description
+                    ? formik.values.description.length > 200
+                      ? 'Description truncated to 200 characters'
+                      : `Characters left: ${200 - formik.values.description.length}`
+                    : 'Description not available'}
                 </FormHelperText>
 
                 <TextField
@@ -252,7 +230,7 @@ const EditProfile = ({ open, onClose }) => {
                   error={formik.touched.address && Boolean(formik.errors.address)}
                   helperText={formik.touched.address && formik.errors.address}
                 />
-                <TextField
+                {/* <TextField
                   id="password"
                   name="password"
                   label="Password"
@@ -275,9 +253,10 @@ const EditProfile = ({ open, onClose }) => {
                     ),
                     style: { color: formik.touched.password && formik.errors.password ? 'red' : 'inherit' }
                   }}
-                />
+                /> */}
 
                 {/* Add the following to handle file input */}
+
                 <label htmlFor="file-upload" style={{ display: 'flex', alignItems: 'center' }}>
                   <Fab variant="extended" color="primary" component="span">
                     <Camera />

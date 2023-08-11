@@ -1,7 +1,4 @@
 import React from 'react';
-//import { Link as RouterLink } from 'react-router-dom';
-
-// material-ui
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -21,15 +18,10 @@ import {
   Alert
   //Typography
 } from '@mui/material';
-//import { ApiUrl } from 'common/commonUrl.jsx';
-// third party
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-// project import
-//import FirebaseSocial from './FirebaseSocial';
 import AnimateButton from 'components/@extended/AnimateButton';
 import { useNavigate } from 'react-router-dom';
-// assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import jQuery from 'jquery';
 import { loginApi } from 'apiservices/Api';
@@ -72,7 +64,6 @@ const AuthLogin = () => {
 
       loginApi({ email, password })
         .then((response) => {
-          // Handle the response data directly, no need for response.json()
           const data = response.data;
           if (data) {
             const userDetails = data.userDetails;
@@ -87,21 +78,6 @@ const AuthLogin = () => {
             jQuery('#wrongUserAlert').show();
           }
         })
-
-        //Authentication.registerSuccessfulLogin(data);
-
-        // if (data.errorCode === 0 && data.user !== null) {
-        //   if (data.user.role.role === 'SuperAdmin') navigate('/dash');
-        //   console.log(data);
-        // }
-        // if (data.user.role.role === 'Admin') {
-        //   if (data.user.school.dbName !== dbName) {
-        //     console.log(data.user.role.role);
-        //     Authentication.setSchool(data.user.school);
-        //     navigate('/schooldashboard');
-        //   }
-        //}
-
         .catch((err) => {
           jQuery('#wrongUserAlert').show();
           jQuery('#wrongUserAlert').css('display', 'flex');
@@ -110,8 +86,6 @@ const AuthLogin = () => {
     }
   });
   const Close = () => {
-    // jQuery('#usernameAlert').css('display', 'none');
-    // jQuery('#passwordAlert').css('display', 'none');
     jQuery('#wrongUserAlert').css('display', 'none');
   };
 
@@ -241,7 +215,6 @@ const AuthLogin = () => {
               </Grid> */}
         </Grid>
       </form>
-      {/* </Formik> */}
     </>
   );
 };
