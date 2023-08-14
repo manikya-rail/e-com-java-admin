@@ -73,13 +73,13 @@ const headCells = [
     disablePadding: false,
 
     label: 'Status'
+  },
+  {
+    id: 'protein',
+    align: 'left',
+    disablePadding: false,
+    label: 'Actions'
   }
-  // {
-  //   id: 'protein',
-  //   align: 'right',
-  //   disablePadding: false,
-  //   label: 'Total Amount'
-  // }
 ];
 
 // ==============================|| ORDER TABLE - HEADER ||============================== //

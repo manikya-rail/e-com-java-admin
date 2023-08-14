@@ -59,6 +59,7 @@ function a11yProps(index) {
 const Profile = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [loggedOut, setLoggedOut] = useState(false);
   const handleLogout = async () => {
     // logout
     sessionStorage.removeItem('userDetails');
@@ -66,21 +67,41 @@ const Profile = () => {
     sessionStorage.removeItem('jwt_token');
 
     // Redirect to login page
-    navigate('/login', { replace: true });
+    navigate('/login', { replace: true })
+   // window.location.replace('/login');
+    // Clear browser history
+    window.history.replaceState({}, document.title, '/login');
+    setLoggedOut(true);
   };
+  // useEffect(() => {
+  //   // Prevent browser navigation after logging out
+  //   const handleBrowserNavigation = (event) => {
+  //     event.preventDefault();
+  //     event.returnValue = '';
+  //   };
+
+  //   window.addEventListener('beforeunload', handleBrowserNavigation);
+
+  //   return () => {
+  //     window.removeEventListener('beforeunload', handleBrowserNavigation);
+  //   };
+  // }, []);
   useEffect(() => {
-    // Prevent browser navigation after logging out
-    const handleBrowserNavigation = (event) => {
-      event.preventDefault();
-      event.returnValue = '';
-    };
+    if (loggedOut) {
+      // Prevent browser navigation after logging out
+      const handleBrowserNavigation = (event) => {
+        event.preventDefault();
+        event.returnValue = '';
+      };
 
-    window.addEventListener('beforeunload', handleBrowserNavigation);
+      window.addEventListener('beforeunload', handleBrowserNavigation);
 
-    return () => {
-      window.removeEventListener('beforeunload', handleBrowserNavigation);
-    };
-  }, []);
+      return () => {
+        window.removeEventListener('beforeunload', handleBrowserNavigation);
+      };
+    }
+  }, [loggedOut]);
+
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const handleToggle = () => {
