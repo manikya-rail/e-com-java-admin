@@ -7,7 +7,8 @@ const config = {
   getClientListUrl: `${apiUrl}api/auth/client`,
   getClientImageUrl: `${apiUrl}api/auth/image`,
   getSuperAdminProfile: `${apiUrl}api/auth`,
-  editProfileUrl: `${apiUrl}api/auth/client`
+  editProfileUrl: `${apiUrl}api/auth/client`,
+  deleteClientUrl: `${apiUrl}api/auth/client`
 };
 
 export default config;

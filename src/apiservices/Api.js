@@ -9,3 +9,4 @@ export const getAllClientApi = () => axios.get(config.getClientListUrl, headerCo
 export const getClientImageApi = (id) => axios.get(`${config.getClientImageUrl}/${id}`, headerConfig.image_headers);
 export const getSuperAdminProfile = (id) => axios.get(`${config.getSuperAdminProfile}/${id}`, headerConfig);
 export const editProfileApi = (data, id) => axios.patch(`${config.editProfileUrl}/${id}`, data, headerConfig.add_headers);
+export const deleteClientApi = (id) => axios.delete(`${config.deleteClientUrl}/${id}`, headerConfig.client_headers);

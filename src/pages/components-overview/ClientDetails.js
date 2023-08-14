@@ -56,6 +56,7 @@ const ClientDetails = () => {
 
     fetchClientDetails();
   }, []);
+
   useEffect(() => {
     const fetchClientImage = async () => {
       try {
@@ -149,7 +150,7 @@ const ClientDetails = () => {
                         <td>
                           <TextField
                             id="outlined-readonly-prof"
-                            label="Registration No"
+                            label="Client Id"
                             defaultValue={clientDetails && clientDetails.id}
                             multiline
                             fullWidth
