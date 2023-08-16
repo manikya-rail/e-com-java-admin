@@ -33,7 +33,6 @@ import '../../assets/css/clientList.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Camera, PlusSquareFill } from 'react-bootstrap-icons';
-import 'react-toastify/dist/ReactToastify.css';
 import { addClientApi } from 'apiservices/Api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -46,7 +45,7 @@ const ClientList = () => {
   const [open, setOpen] = React.useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
- // const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -109,7 +108,11 @@ const ClientList = () => {
       formData.append('user', JSON.stringify(user)); // Convert user object to JSON string
 
       // Append file data
-      formData.append('file', file, file.name);
+      if (selectedFile) {
+        formData.append('file', file, file.name);
+      } else {
+        formData.append('file', null);
+      }
 
       for (const pair of formData.entries()) {
         console.log(pair[0], pair[1]);
@@ -164,7 +167,7 @@ const ClientList = () => {
 
   return (
     <>
-     <Grid item xs={12} sx={{ mb: 5 }}>
+      <Grid item xs={12} sx={{ mb: 5 }}>
         <Typography variant="h5">Client List</Typography>
       </Grid>
       <ToastContainer />
@@ -173,7 +176,7 @@ const ClientList = () => {
           <PlusSquareFill id="addClient" onClick={handleClickOpen} />
         </Tooltip>
       </Grid>
-  
+
       <Grid item xs={12} md={12} lg={12}>
         {/* <Grid container alignItems="center" justifyContent="space-between">
         <Grid item />
