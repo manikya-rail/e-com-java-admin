@@ -12,49 +12,13 @@ import { Box, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHea
 
 // project import
 import Dot from 'components/@extended/Dot';
-import { getAllClientApi } from 'apiservices/Api';
-
-// function createData(trackingNo, name, fat, carbs, protein) {
-//   return { trackingNo, name, fat, carbs, protein };
-// }
-
-//const rows = [createData('TV1', 'Amazon', 'conact@amazon.com', 1), createData('TV2', 'Flipkart', 'conact@flipkart.com', 1)];
-
-// function descendingComparator(a, b, orderBy) {
-//   if (b[orderBy] < a[orderBy]) {
-//     return -1;
-//   }
-//   if (b[orderBy] > a[orderBy]) {
-//     return 1;
-//   }
-//   return 0;
-// }
-
-// function getComparator(order, orderBy) {
-//   return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
-// }
-
-// function stableSort(array, comparator) {
-//   const stabilizedThis = array.map((el, index) => [el, index]);
-//   stabilizedThis.sort((a, b) => {
-//     const order = comparator(a[0], b[0]);
-//     if (order !== 0) {
-//       return order;
-//     }
-//     return a[1] - b[1];
-//   });
-//   return stabilizedThis.map((el) => el[0]);
-// }
-
+import { getAllClientApi, deleteClientApi } from 'apiservices/Api';
+import { Delete } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
+import Swal from 'sweetalert2';
 // ==============================|| ORDER TABLE - HEADER CELL ||============================== //
 
 const headCells = [
-  {
-    id: 'trackingNo',
-    align: 'left',
-    disablePadding: false,
-    label: 'Client Id'
-  },
   {
     id: 'name',
     align: 'left',
@@ -68,18 +32,24 @@ const headCells = [
     label: 'Email-ID'
   },
   {
+    id: 'trackingNo',
+    align: 'left',
+    disablePadding: false,
+    label: 'Location'
+  },
+  {
     id: 'carbs',
     align: 'left',
     disablePadding: false,
 
     label: 'Status'
+  },
+  {
+    id: 'protein',
+    align: 'left',
+    disablePadding: false,
+    label: 'Actions'
   }
-  // {
-  //   id: 'protein',
-  //   align: 'right',
-  //   disablePadding: false,
-  //   label: 'Total Amount'
-  // }
 ];
 
 // ==============================|| ORDER TABLE - HEADER ||============================== //
@@ -178,8 +148,32 @@ export default function OrderTable() {
 
     fetchClientList();
   }, []);
-  console.log(error);
 
+  const handleDelete = async (clientId) => {
+    try {
+      // Show a confirmation dialog
+      const result = await Swal.fire({
+        title: 'Confirm Deletion',
+        text: 'Are you sure you want to delete this client?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      });
+
+      // If the user confirms the deletion
+      if (result.isConfirmed) {
+        // Call the deleteClientApi function here
+        await deleteClientApi(clientId);
+        setClientList((prevClientList) => prevClientList.filter((client) => client.id !== clientId));
+        Swal.fire('Deleted!', 'The client has been deleted.', 'success');
+      }
+    } catch (error) {
+      console.error('Error deleting client:', error);
+      // Handle the error if needed
+    }
+  };
   return (
     <Box>
       <TableContainer
@@ -228,8 +222,6 @@ export default function OrderTable() {
                     key={row.id}
                     selected={isItemSelected}
                   >
-                    <TableCell align="left">{row.id}</TableCell>
-
                     <TableCell component="th" id={labelId} scope="row" align="left">
                       <Link color="primary" component={RouterLink} to={`/clientlist/clientdetails/${row.id}`}>
                         {row.name}
@@ -238,12 +230,19 @@ export default function OrderTable() {
 
                     {/* <TableCell align="left">{row.name}</TableCell> */}
                     <TableCell align="left">{row.email}</TableCell>
+                    <TableCell align="left">{row.location}</TableCell>
                     <TableCell align="left">
                       <OrderStatus status={row.active == true ? 1 : 2} />
                     </TableCell>
-                    {/* <TableCell align="right">
-                    <NumberFormat value={row.protein} displayType="text" thousandSeparator prefix="$" />
-                  </TableCell> */}
+                    <TableCell align="left">
+                      <IconButton
+                        onClick={() => handleDelete(row.id)} // Replace with your delete function
+                        color="error"
+                        aria-label="delete"
+                      >
+                        <Delete />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 );
               })

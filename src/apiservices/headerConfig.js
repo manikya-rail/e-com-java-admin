@@ -14,6 +14,10 @@ const headerConfig = {
   image_headers: {
     Authorization: jwtToken,
     'Content-Type': 'image/png'
+  },
+  login_header: {
+    'Content-Type': 'application/json',
+    
   }
 };
 

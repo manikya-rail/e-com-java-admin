@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useRef, useState,useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -25,11 +25,12 @@ import Transitions from 'components/@extended/Transitions';
 import ProfileTab from './ProfileTab';
 import SettingTab from './SettingTab';
 import { getFromSessionStorage } from 'storageservices/storageUtils';
-import {getSuperAdminProfile} from 'apiservices/Api';
-
+import { getSuperAdminProfile } from 'apiservices/Api';
+//import { useHistory } from 'react-router';
 // assets
 // import avatar1 from 'assets/images/users/avatar-1.png';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router';
 
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
@@ -57,10 +58,49 @@ function a11yProps(index) {
 
 const Profile = () => {
   const theme = useTheme();
-
+  const navigate = useNavigate();
+  const [loggedOut, setLoggedOut] = useState(false);
   const handleLogout = async () => {
     // logout
+    sessionStorage.removeItem('userDetails');
+    sessionStorage.removeItem('s_image');
+    sessionStorage.removeItem('jwt_token');
+
+    // Redirect to login page
+    navigate('/login', { replace: true })
+   // window.location.replace('/login');
+    // Clear browser history
+    window.history.replaceState({}, document.title, '/login');
+    setLoggedOut(true);
   };
+  // useEffect(() => {
+  //   // Prevent browser navigation after logging out
+  //   const handleBrowserNavigation = (event) => {
+  //     event.preventDefault();
+  //     event.returnValue = '';
+  //   };
+
+  //   window.addEventListener('beforeunload', handleBrowserNavigation);
+
+  //   return () => {
+  //     window.removeEventListener('beforeunload', handleBrowserNavigation);
+  //   };
+  // }, []);
+  useEffect(() => {
+    if (loggedOut) {
+      // Prevent browser navigation after logging out
+      const handleBrowserNavigation = (event) => {
+        event.preventDefault();
+        event.returnValue = '';
+      };
+
+      window.addEventListener('beforeunload', handleBrowserNavigation);
+
+      return () => {
+        window.removeEventListener('beforeunload', handleBrowserNavigation);
+      };
+    }
+  }, [loggedOut]);
 
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
@@ -82,32 +122,30 @@ const Profile = () => {
   };
 
   const iconBackColorOpen = 'grey.300';
-//Profile api 
+  //Profile api
 
-const userProfile=getFromSessionStorage("userDetails")
-const userImage=getFromSessionStorage("s_image")
-const [profile,setProfile]=useState('');
-// const image=profile&&profile.image
-useEffect(() => {
-    getSuperAdminProfile(userProfile&&userProfile.id)
-    .then((response) => {
+  const userProfile = getFromSessionStorage('userDetails');
+  const userImage = getFromSessionStorage('s_image');
+  const [profile, setProfile] = useState('');
+  // const image=profile&&profile.image
+  useEffect(() => {
+    getSuperAdminProfile(userProfile && userProfile.id)
+      .then((response) => {
         const data = response.data;
         if (data) {
-            setProfile(data)
-            console.log('successfully fetched');
-        }else {
-            console.log('error');
-           
-          }
-    })
-    .catch((error) => {
+          setProfile(data);
+          console.log('successfully fetched');
+        } else {
+          console.log('error');
+        }
+      })
+      .catch((error) => {
         // Handle any errors
         console.error(error);
-        
       });
-    },[])
+  }, []);
 
-//Profile api 
+  //Profile api
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
       <ButtonBase
@@ -125,7 +163,7 @@ useEffect(() => {
       >
         <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
           <Avatar alt="profile user" src={`data:image/png;base64,${userImage}`} sx={{ width: 32, height: 32 }} />
-          <Typography variant="subtitle1">{profile&&profile.role}</Typography>
+          <Typography variant="subtitle1">{profile && profile.role}</Typography>
         </Stack>
       </ButtonBase>
       <Popper
@@ -168,9 +206,9 @@ useEffect(() => {
                           <Stack direction="row" spacing={1.25} alignItems="center">
                             <Avatar alt="profile user" src={`data:image/png;base64,${userImage}`} sx={{ width: 32, height: 32 }} />
                             <Stack>
-                              <Typography variant="h6">{profile&&profile.name}</Typography>
+                              <Typography variant="h6">{profile && profile.name}</Typography>
                               <Typography variant="body2" color="textSecondary">
-                              {profile&&profile.role}
+                                {profile && profile.role}
                               </Typography>
                             </Stack>
                           </Stack>

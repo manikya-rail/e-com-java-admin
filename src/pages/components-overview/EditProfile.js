@@ -6,8 +6,6 @@ import {
   DialogContentText,
   DialogActions,
   TextField,
-  //InputAdornment,
-  //IconButton,
   Fab,
   Button,
   Box,
@@ -15,16 +13,16 @@ import {
   useMediaQuery,
   FormHelperText
 } from '@mui/material';
-//import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Camera } from 'react-bootstrap-icons';
-//import '../../assets/css/clientDetails.css';
+import { editProfileApi } from 'apiservices/Api';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-  //const [showPassword, setShowPassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
   const validationSchema = Yup.object().shape({
@@ -39,25 +37,30 @@ const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
     mobileNumber: Yup.string()
       .required('Mobile Number is required')
       .matches(/^[0-9]{10}$/, 'Mobile Number must be a 10-digit number'),
-    address: Yup.string().required('Address is required'),
-    // password: Yup.string()
-    //   .required('Password is required')
-    //   .matches(
-    //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/,
-    //     'Password must contain at least one lowercase letter, one uppercase letter, one number, one special character (@$!%*?&), and be 8 to 20 characters long'
-    //   )
+    address: Yup.string().required('Address is required')
   });
+  const handleSuccess = () => {
+    setInterval('window.location.reload()', 3000);
+    toast.success('Client edited successfully!', {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  };
 
+  const handleError = (errorResponse) => {
+    const errorMessage = errorResponse.data?.errorMessage || 'An error occurred';
+    toast.error(errorMessage, {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  };
   const formik = useFormik({
     initialValues: {
+      id: clientDetailsEdit && clientDetailsEdit.id,
       name: clientDetailsEdit && clientDetailsEdit.name,
       description: clientDetailsEdit && clientDetailsEdit.description,
       username: clientDetailsEdit && clientDetailsEdit.username,
       email: clientDetailsEdit && clientDetailsEdit.email,
       mobileNumber: clientDetailsEdit && clientDetailsEdit.mobileNumber,
-      address: clientDetailsEdit && clientDetailsEdit.location,
-      //password: ''
-      //image: clientDetails && clientDetails.image
+      address: clientDetailsEdit && clientDetailsEdit.location
     },
 
     enableReinitialize: true,
@@ -66,28 +69,52 @@ const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
     validateOnBlur: true,
 
     onSubmit: (values) => {
-      console.log(values);
+      const user = {
+        name: values.name,
+        description: values.description,
+        username: values.username,
+        email: values.email,
+        mobileNumber: values.mobileNumber,
+        location: values.address
+      };
 
+      const file = selectedFile;
       const formData = new FormData();
+      // Append user data
+      formData.append('user', JSON.stringify(user)); // Convert user object to JSON string
 
-      formData.append('name', formik.values.name);
-      formData.append('description', formik.values.description);
-      formData.append('username', formik.values.username);
-      formData.append('email', formik.values.email);
-      formData.append('mobileNumber', formik.values.mobileNumber);
-      formData.append('address', formik.values.address);
-      //formData.append('password', formik.values.password);
-
-      // Append any file you want to upload
-      // Assuming you have an input field with type="file" and name="profileImage"
-      const fileInput = document.getElementById('file-upload');
-      if (fileInput && fileInput.files.length > 0) {
-        formData.append('file-upload', fileInput.files[0]);
+      // Append file data
+      if (selectedFile) {
+        formData.append('file', file, file.name);
+      }
+      //  else {
+      //   formData.append('file', null);
+      // }
+      // Append previous image if it exists
+      if (clientDetailsEdit && clientDetailsEdit.image) {
+        formData.append('file', clientDetailsEdit.image);
       }
       for (const pair of formData.entries()) {
         console.log(pair[0], pair[1]);
       }
-      onClose();
+      //API CALL//
+      editProfileApi(formData, clientDetailsEdit.id)
+        .then((response) => {
+          const data = response;
+          if (data.status === 200) {
+            console.log('successfully edited');
+            handleSuccess();
+          } else {
+            console.log('error');
+            setError(data.errorMessage);
+            handleError(response); // Display error message using react-toastify
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          handleError(error.response); // Display error message using react-toastify
+        });
+      handleCancel();
     }
   });
 
@@ -126,17 +153,26 @@ const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
                 noValidate
                 autoComplete="off"
               >
-                {/* Display the client's image */}
-                {clientDetailsEdit && clientDetailsEdit.image && (
-                  <div style={{ marginTop: '20px' }}>
-                    <img
-                      src={`data:image/png;base64,${clientDetailsEdit.image}`} // Use the appropriate format (PNG, JPEG, etc.)
-                      alt="Client"
-                      id="profilepic"
-                      style={{ maxWidth: '100%', height: 'auto' }}
-                    />
-                  </div>
-                )}
+                {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  {selectedFile && (
+                    <div>
+                      <h4>Selected Image:</h4>
+                      <img src={URL.createObjectURL(selectedFile)} alt="Selected Profile" style={{ maxWidth: '200px', height: 'auto' }} />
+                    </div>
+                  )}
+
+                  {clientDetailsEdit && clientDetailsEdit.image && (
+                    <div>
+                      <h4>Previous Image:</h4>
+                      <img
+                        src={`data:image/png;base64,${clientDetailsEdit.image}`}
+                        alt="Previous Profile"
+                        style={{ maxWidth: '200px', height: 'auto' }}
+                      />
+                    </div>
+                  )}
+                </div> */}
+
                 <TextField
                   id="name"
                   name="name"
@@ -230,34 +266,29 @@ const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
                   error={formik.touched.address && Boolean(formik.errors.address)}
                   helperText={formik.touched.address && formik.errors.address}
                 />
-                {/* <TextField
-                  id="password"
-                  name="password"
-                  label="Password"
-                  variant="outlined"
-                  type={showPassword ? 'text' : 'password'}
-                  fullWidth
-                  required
-                  value={formik.values.password}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.password && Boolean(formik.errors.password)}
-                  helperText={formik.touched.password && formik.errors.password}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                    style: { color: formik.touched.password && formik.errors.password ? 'red' : 'inherit' }
-                  }}
-                /> */}
-
                 {/* Add the following to handle file input */}
 
-                <label htmlFor="file-upload" style={{ display: 'flex', alignItems: 'center' }}>
+                {/* Show the selected image preview */}
+                {/* {selectedFile && (
+                  <div>
+                    <h4>Selected Image:</h4>
+                    <img src={URL.createObjectURL(selectedFile)} alt="Profile" style={{ width: '200px' }} />
+                  </div>
+                )} */}
+
+                <div>
+                  {(selectedFile || (clientDetailsEdit && clientDetailsEdit.image)) && (
+                    <div>
+                      <h4>Profile Image:</h4>
+                      <img
+                        src={selectedFile ? URL.createObjectURL(selectedFile) : `data:image/png;base64,${clientDetailsEdit.image}`}
+                        alt="Profile"
+                        style={{ maxWidth: '200px', height: 'auto' }}
+                      />
+                    </div>
+                  )}
+                </div>
+                <label htmlFor="file-upload" style={{ display: 'flex', alignItems: 'center', marginLeft: '265px' }}>
                   <Fab variant="extended" color="primary" component="span">
                     <Camera />
                     Upload profile image
@@ -275,14 +306,6 @@ const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
                     }}
                   />
                 </label>
-
-                {/* Show the selected image preview */}
-                {selectedFile && (
-                  <div>
-                    <h4>Selected Image:</h4>
-                    <img src={URL.createObjectURL(selectedFile)} alt="Profile" style={{ width: '200px' }} />
-                  </div>
-                )}
               </Box>
             </div>
           </DialogContentText>
