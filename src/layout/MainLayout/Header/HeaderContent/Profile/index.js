@@ -30,7 +30,7 @@ import { getSuperAdminProfile } from 'apiservices/Api';
 // assets
 // import avatar1 from 'assets/images/users/avatar-1.png';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
-import { useNavigate } from '../../../../../../node_modules/react-router-dom/dist/index';
+import { useNavigate } from 'react-router';
 
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
