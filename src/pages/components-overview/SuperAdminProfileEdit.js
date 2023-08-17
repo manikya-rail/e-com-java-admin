@@ -187,14 +187,16 @@ export const SuperAdminProfileEdit = () => {
                         <div>
                           <h4>Profile Image:</h4>
                           <img
-                            src={selectedFile ? URL.createObjectURL(selectedFile) : `data:image/png;base64,$userImage}`}
+                            src={selectedFile ? URL.createObjectURL(selectedFile) : `data:image/png;base64,${userImage}`}
                             alt="Profile"
+                            id="profilepic"
                             style={{ maxWidth: '200px', height: 'auto' }}
                           />
                         </div>
                       )}
                     </div>
-                    <label htmlFor="file-upload" style={{ display: 'flex', alignItems: 'center' }}>
+                    <br></br>
+                    <label htmlFor="file-upload" style={{ display: 'flex', alignItems: 'center', marginLeft: '100px' }}>
                       <Fab variant="extended" color="primary" component="span">
                         <Camera />
                         Upload profile image
