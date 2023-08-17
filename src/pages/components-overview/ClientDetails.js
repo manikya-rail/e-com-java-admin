@@ -61,18 +61,19 @@ const ClientDetails = () => {
     const fetchClientImage = async () => {
       try {
         const imageResponse = await getClientImageApi(id);
-        console.log('Image response:', imageResponse);
-        if (imageResponse.status === 200) {
-          // const imageByteArray = imageResponse.data; // Fetch image byte array from the backend
-          // const dataUri = `data:image/png;base64,${btoa(String.fromCharCode(...imageByteArray))}`;
-          // console.log(dataUri);
-          //setImage(dataUri);
-          setImage(imageResponse.data);
-        } else {
-          // Handle image API error here
-          setImageError('Error fetching client image');
-          console.error('Error fetching client image:', imageResponse);
-        }
+        console.log('Image response:', imageResponse.data);
+        setImage(imageResponse.data);
+        // if (imageResponse.status === 200) {
+        //   // const imageByteArray = imageResponse.data; // Fetch image byte array from the backend
+        //   // const dataUri = `data:image/png;base64,${btoa(String.fromCharCode(...imageByteArray))}`;
+        //   // console.log(dataUri);
+        //   //setImage(dataUri);
+        //   setImage(imageResponse.data);
+        // } else {
+        //   // Handle image API error here
+        //   setImageError('Error fetching client image');
+        //   console.error('Error fetching client image:', imageResponse);
+        // }
       } catch (error) {
         setImageError('Error fetching client image');
         console.error('Error fetching client image:', error);
@@ -117,6 +118,7 @@ const ClientDetails = () => {
       ) : (
         <p>Loading image...</p>
       )} */}
+      <img src={`data:image/png;base64, ${clientDetails&&clientDetails.image}`} alt="img" />
                     </Grid>
                     <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
                       <Typography variant="h5" id="profDetails">
