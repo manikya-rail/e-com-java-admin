@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography, IconButton, TextField, Tooltip,Button } from '@mui/material';
+import { Grid, Typography, IconButton, TextField, Tooltip, Button } from '@mui/material';
 import facebook from '../../assets/images/icons/facebook.svg';
 import twitter from '../../assets/images/icons/twitter.svg';
 import google from '../../assets/images/icons/google.svg';
@@ -13,7 +13,6 @@ import { Link as RouterLink } from 'react-router-dom';
 
 export const SuperAdminProfile = () => {
   const userProfile = getFromSessionStorage('userDetails');
-  const userImage = getFromSessionStorage('s_image');
   const [profile, setProfile] = useState('');
   useEffect(() => {
     getSuperAdminProfile(userProfile && userProfile.id)
@@ -31,6 +30,7 @@ export const SuperAdminProfile = () => {
         console.error(error);
       });
   }, []);
+
   return (
     <ComponentSkeleton>
       <h3>My Profile</h3>
@@ -46,7 +46,7 @@ export const SuperAdminProfile = () => {
             <Grid container xs={12} sm={12} md={12} lg={12}>
               <Grid item xs={12} sm={4} md={4} lg={4}>
                 <Grid item xs={12} sm={12} md={3} lg={12}>
-                  <img src={`data:image/png;base64,${userImage}`} alt="img" id="profilepic" />
+                  <img src={`http://localhost:8081/api/auth/image/${profile && profile.id}`} alt="img" id="profilepic" />
                 </Grid>
                 <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
                   <Typography variant="h5" id="profDetails">
@@ -81,8 +81,8 @@ export const SuperAdminProfile = () => {
                     <td>
                       <TextField
                         id="outlined-readonly-prof"
-                        label="Registration No"
-                        defaultValue={profile ? `TV${profile.id}` : ''}
+                        label="Registration Id"
+                        defaultValue={profile && profile.id}
                         color="secondary"
                         multiline
                         fullWidth

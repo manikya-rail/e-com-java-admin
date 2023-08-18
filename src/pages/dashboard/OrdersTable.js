@@ -5,7 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 // import {useNavigate} from 'react-router-dom';
 
 // material-ui
-import { Box, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Tooltip } from '@mui/material';
 
 // third-party
 // import NumberFormat from 'react-number-format';
@@ -240,7 +240,10 @@ export default function OrderTable() {
                         color="error"
                         aria-label="delete"
                       >
-                        <Delete />
+                        <Tooltip title="delete">
+                          {' '}
+                          <Delete />
+                        </Tooltip>
                       </IconButton>
                     </TableCell>
                   </TableRow>
