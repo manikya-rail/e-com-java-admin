@@ -86,17 +86,13 @@ const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
       // Append file data
       if (selectedFile) {
         formData.append('file', file, file.name);
+      } else {
+        formData.append('file', null);
       }
-      //  else {
-      //   formData.append('file', null);
-      // }
       // Append previous image if it exists
-      if (clientDetailsEdit && clientDetailsEdit.image) {
-        formData.append('file', clientDetailsEdit.image);
-      }
-      for (const pair of formData.entries()) {
-        console.log(pair[0], pair[1]);
-      }
+      // if (clientDetailsEdit && clientDetailsEdit.image) {
+      //   formData.append('file', clientDetailsEdit.image);
+      // }
       //API CALL//
       editProfileApi(formData, clientDetailsEdit.id)
         .then((response) => {
@@ -153,26 +149,6 @@ const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
                 noValidate
                 autoComplete="off"
               >
-                {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  {selectedFile && (
-                    <div>
-                      <h4>Selected Image:</h4>
-                      <img src={URL.createObjectURL(selectedFile)} alt="Selected Profile" style={{ maxWidth: '200px', height: 'auto' }} />
-                    </div>
-                  )}
-
-                  {clientDetailsEdit && clientDetailsEdit.image && (
-                    <div>
-                      <h4>Previous Image:</h4>
-                      <img
-                        src={`data:image/png;base64,${clientDetailsEdit.image}`}
-                        alt="Previous Profile"
-                        style={{ maxWidth: '200px', height: 'auto' }}
-                      />
-                    </div>
-                  )}
-                </div> */}
-
                 <TextField
                   id="name"
                   name="name"
@@ -266,22 +242,16 @@ const EditProfile = ({ open, onClose, clientDetailsEdit }) => {
                   error={formik.touched.address && Boolean(formik.errors.address)}
                   helperText={formik.touched.address && formik.errors.address}
                 />
-                {/* Add the following to handle file input */}
-
-                {/* Show the selected image preview */}
-                {/* {selectedFile && (
-                  <div>
-                    <h4>Selected Image:</h4>
-                    <img src={URL.createObjectURL(selectedFile)} alt="Profile" style={{ width: '200px' }} />
-                  </div>
-                )} */}
-
                 <div>
                   {(selectedFile || (clientDetailsEdit && clientDetailsEdit.image)) && (
                     <div>
                       <h4>Profile Image:</h4>
                       <img
-                        src={selectedFile ? URL.createObjectURL(selectedFile) : `data:image/png;base64,${clientDetailsEdit.image}`}
+                        src={
+                          selectedFile
+                            ? URL.createObjectURL(selectedFile)
+                            : `http://localhost:8081/api/auth/image/${clientDetailsEdit && clientDetailsEdit.id}`
+                        }
                         alt="Profile"
                         style={{ maxWidth: '200px', height: 'auto' }}
                       />

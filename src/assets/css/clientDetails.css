@@ -30,9 +30,10 @@ margin: 0 auto;
     margin-top: 100px;
 }
 
-#editProfIcon{
+/* #editProfIcon{
     float: right;
     font-size: x-large;
-    color:#728FCE;
+    color:#4676de;
     cursor: pointer;
-}
+    border-radius: 50%;
+} */

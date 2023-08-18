@@ -67,8 +67,8 @@ const Profile = () => {
     sessionStorage.removeItem('jwt_token');
 
     // Redirect to login page
-    navigate('/login', { replace: true })
-   // window.location.replace('/login');
+    navigate('/login', { replace: true });
+    // window.location.replace('/login');
     // Clear browser history
     window.history.replaceState({}, document.title, '/login');
     setLoggedOut(true);
@@ -125,7 +125,6 @@ const Profile = () => {
   //Profile api
 
   const userProfile = getFromSessionStorage('userDetails');
-  const userImage = getFromSessionStorage('s_image');
   const [profile, setProfile] = useState('');
   // const image=profile&&profile.image
   useEffect(() => {
@@ -162,7 +161,7 @@ const Profile = () => {
         onClick={handleToggle}
       >
         <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-          <Avatar alt="profile user" src={`data:image/png;base64,${userImage}`} sx={{ width: 32, height: 32 }} />
+          <Avatar alt="profile user" src={`http://localhost:8081/api/auth/image/${profile && profile.id}`} sx={{ width: 32, height: 32 }} />
           <Typography variant="subtitle1">{profile && profile.role}</Typography>
         </Stack>
       </ButtonBase>
@@ -204,7 +203,11 @@ const Profile = () => {
                       <Grid container justifyContent="space-between" alignItems="center">
                         <Grid item>
                           <Stack direction="row" spacing={1.25} alignItems="center">
-                            <Avatar alt="profile user" src={`data:image/png;base64,${userImage}`} sx={{ width: 32, height: 32 }} />
+                            <Avatar
+                              alt="profile user"
+                              src={`http://localhost:8081/api/auth/image/${profile && profile.id}`}
+                              sx={{ width: 32, height: 32 }}
+                            />
                             <Stack>
                               <Typography variant="h6">{profile && profile.name}</Typography>
                               <Typography variant="body2" color="textSecondary">

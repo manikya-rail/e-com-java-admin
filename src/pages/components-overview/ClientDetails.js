@@ -3,22 +3,17 @@ import React, { useState, useEffect } from 'react';
 // material-ui
 // import { useTheme } from '@mui/material/styles';
 import { Grid, Stack, Typography, IconButton, TextField, Tooltip } from '@mui/material';
-
+import { Edit } from '@mui/icons-material';
 // project import
 import MainCard from 'components/MainCard';
 import ComponentSkeleton from './ComponentSkeleton';
-//import ByteToImage from './ByteToImage';
-//import userImg from '../../assets/images/users/userpng.png';
 import facebook from '../../assets/images/icons/facebook.svg';
 import twitter from '../../assets/images/icons/twitter.svg';
 import google from '../../assets/images/icons/google.svg';
 import '../../assets/css/clientDetails.css';
-import { PencilSquare } from '../../../node_modules/react-bootstrap-icons/dist/index';
 import EditProfile from './EditProfile';
-import { getClientDetailsByIdApi, getClientImageApi } from 'apiservices/Api';
+import { getClientDetailsByIdApi } from 'apiservices/Api';
 import { useParams } from 'react-router-dom';
-//import { getFromSessionStorage, saveToSessionStorage } from 'storageservices/storageUtils';
-//import { saveToSessionStorage} from 'storageservices/storageUtils';
 import { ToastContainer } from 'react-toastify';
 // ===============================|| SHADOW BOX ||=============================== //
 
@@ -41,8 +36,7 @@ const ClientDetails = () => {
   const { id } = useParams();
   const [clientDetails, setClientDetails] = useState(null);
   const [error, setError] = useState(null);
-  const [image, setImage] = useState(null);
-  const [ImageError, setImageError] = useState(null);
+
   useEffect(() => {
     const fetchClientDetails = async () => {
       try {
@@ -57,31 +51,6 @@ const ClientDetails = () => {
     fetchClientDetails();
   }, []);
 
-  useEffect(() => {
-    const fetchClientImage = async () => {
-      try {
-        const imageResponse = await getClientImageApi(id);
-        console.log('Image response:', imageResponse.data);
-        setImage(imageResponse.data);
-        // if (imageResponse.status === 200) {
-        //   // const imageByteArray = imageResponse.data; // Fetch image byte array from the backend
-        //   // const dataUri = `data:image/png;base64,${btoa(String.fromCharCode(...imageByteArray))}`;
-        //   // console.log(dataUri);
-        //   //setImage(dataUri);
-        //   setImage(imageResponse.data);
-        // } else {
-        //   // Handle image API error here
-        //   setImageError('Error fetching client image');
-        //   console.error('Error fetching client image:', imageResponse);
-        // }
-      } catch (error) {
-        setImageError('Error fetching client image');
-        console.error('Error fetching client image:', error);
-      }
-    };
-
-    fetchClientImage();
-  }, []);
   const [profileEditModalOpen, setProfileEditModalOpen] = useState(false);
   const [clientDetailsEdit, setClientDetailsEdit] = useState(false);
 
@@ -103,22 +72,21 @@ const ClientDetails = () => {
               <p>Error fetching client details: {error.message}</p>
             ) : clientDetails ? (
               <MainCard>
-                <button onClick={() => handleEditClick(clientDetails)}>
+                <IconButton
+                  onClick={() => handleEditClick(clientDetails)}
+                  style={{ float: 'right', fontSize: 'xx-large' }}
+                  color="info"
+                  aria-label="edit"
+                >
                   <Tooltip title="Edit profile">
-                    <PencilSquare id="editProfIcon" />
+                    <Edit />
                   </Tooltip>
-                </button>
+                </IconButton>
 
                 <Grid container xs={12} sm={12} md={12} lg={12}>
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <Grid item xs={12} sm={12} md={3} lg={12}>
-                      {ImageError ? <img alt="img" id="profilepic" /> : <img src={`data:image/png;base64,${image}`} alt="img" />}
-                      {/* {image ? (
-        <img src={`data:image/png;base64,${imageData}`} alt="Client" />
-      ) : (
-        <p>Loading image...</p>
-      )} */}
-      <img src={`data:image/png;base64, ${clientDetails&&clientDetails.image}`} alt="img" />
+                      <img src={`http://localhost:8081/api/auth/image/${clientDetails && clientDetails.id}`} alt="img" id="profilepic" />
                     </Grid>
                     <Grid item xs={12} sm={12} md={3} lg={12} mt={3}>
                       <Typography variant="h5" id="profDetails">

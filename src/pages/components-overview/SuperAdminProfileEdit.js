@@ -19,7 +19,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const SuperAdminProfileEdit = () => {
   const userProfile = getFromSessionStorage('userDetails');
-  const userImage = getFromSessionStorage('s_image');
   const [profile, setProfile] = useState('');
   useEffect(() => {
     getSuperAdminProfile(userProfile && userProfile.id)
@@ -110,14 +109,13 @@ export const SuperAdminProfileEdit = () => {
       // Append file data
       if (selectedFile) {
         formData.append('file', file, file.name);
+      } else {
+        formData.append('file', null);
       }
-      //  else {
-      //   formData.append('file', null);
-      // }
       // Append previous image if it exists
-      if (profile && profile.image) {
-        formData.append('file', profile.image);
-      }
+      // if (profile && profile.image) {
+      //   formData.append('file', profile.image);
+      // }
       for (const pair of formData.entries()) {
         console.log(pair[0], pair[1]);
       }
@@ -183,11 +181,15 @@ export const SuperAdminProfileEdit = () => {
                       </Tooltip>
                     </IconButton> */}
                     <div>
-                      {(selectedFile || userImage) && (
+                      {(selectedFile || (profile && profile.image)) && (
                         <div>
                           <h4>Profile Image:</h4>
                           <img
-                            src={selectedFile ? URL.createObjectURL(selectedFile) : `data:image/png;base64,${userImage}`}
+                            src={
+                              selectedFile
+                                ? URL.createObjectURL(selectedFile)
+                                : `http://localhost:8081/api/auth/image/${profile && profile.id}`
+                            }
                             alt="Profile"
                             id="profilepic"
                             style={{ maxWidth: '200px', height: 'auto' }}
